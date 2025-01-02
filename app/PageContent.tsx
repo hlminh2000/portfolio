@@ -77,7 +77,7 @@ export default function Home({ timeline, blogPosts }: { timeline: Timeline, blog
                 performance optimization, and creating exceptional user experiences.
                 <br />
                 <br />
-                When not coding, you can find me training for my next marathon / triathlon 🏊🚴🏃
+                When not coding, you can find me training for my next marathon / triathlon 🏊 🚴 🏃
               </p>
               <div className="flex gap-4">
                 <a href="https://github.com/hlminh2000" className="p-2 hover:text-blue-400 transition-colors">
