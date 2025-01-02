@@ -16,11 +16,14 @@ type BlogPost = {
   slug: string
   image?: string
 }
+
 export async function getSortedPostsData() {
   // Get file names under /posts
   const fileNames = await fs.readdir(postsDirectory);
   const allPostsData = await Promise.all(fileNames.map(async (folderName) => {
     // Remove ".md" from file name to get id
+    if (folderName.includes("."))  return null
+    
     const id = `${folderName}/page.mdx`;
 
     // Read markdown file as string
@@ -31,16 +34,20 @@ export async function getSortedPostsData() {
 
     // Use gray-matter to parse the post metadata section
     const matterResult = fileContents && matter(fileContents);
-    console.log("matterResult: ", matterResult)
+    // @ts-ignore
+    const imagePath = path.join(folderName, matterResult?.data.image || "");
+    const image = (await import(`./${imagePath}`)).default;
 
     // Combine the data with the id
     return matterResult && {
       id,
       ...matterResult.data,
+      image,
     };
   }));
   // Sort posts by date
   return allPostsData.filter(_.identity).sort((a, b) => {
+    // @ts-ignore
     if (dayjs(a.date).isBefore(dayjs(b.date))) {
       return 1;
     } else {
@@ -54,11 +61,10 @@ export async function getSortedPostsData() {
       preview: string,
       image?: string
     }
-    console.log("parsed: ", parsed)
     return {
       ...parsed,
       date: dayjs(parsed.date),
-      slug: parsed.id,
+      slug: parsed.id.split("/page")[0],
     }
   });
 }
@@ -67,7 +73,6 @@ export async function getSortedPostsData() {
 export default async function BlogPage() {
 
   const blogPosts = await getSortedPostsData();
-  console.log("blogPosts: ", blogPosts)
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 py-12">
@@ -79,14 +84,13 @@ export default async function BlogPage() {
               <article key={post.id} className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
                 {post.image && (
                   <div className="md:w-1/3">
-                    {/* <Image
+                    <Image
                       src={post.image}
                       alt={post.title}
                       width={300}
                       height={200}
                       className="rounded-lg object-cover w-full h-48"
-                    /> */}
-                    {post.image}
+                    />
                   </div>
                 )}
                 <div className={post.image ? "md:w-2/3" : "w-full"}>

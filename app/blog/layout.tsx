@@ -20,23 +20,8 @@ export default function BlogLayout({
 
       <main>
         <div className="min-h-screen bg-gray-900 text-gray-100 py-12">
-          <article className="max-w-3xl mx-auto px-6">
-            {/* <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-                <div className="text-gray-400 mb-8">{post.date}</div>
-                {post.image && (
-                  <div className="mb-8">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      width={800}
-                      height={400}
-                      className="rounded-lg object-cover w-full h-64 md:h-96"
-                    />
-                  </div>
-                )} */}
-            <div className="prose prose-invert max-w-none">
-              {children}
-            </div>
+          <article className="max-w-3xl mx-auto px-6 prose prose-invert">
+            {children}
           </article>
         </div>
 
