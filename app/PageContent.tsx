@@ -133,15 +133,17 @@ export default function Home({ timeline }: { timeline: Timeline }) {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1">
-                <Image
+              <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1 relative rotate-3">
+                <div className="absolute inset-0 transform rotate-3 p-4 drop-shadow-sm">
+                  <Image
                   src={PROFILE_PIC}
                   alt="Minh Ha"
                   width={400}
                   height={400}
                   className="rounded-2xl object-cover w-full h-full"
-                />
-              </div>
+                  />
+                </div>
+                </div>
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl -z-10 blur-2xl" />
             </div>
           </div>
