@@ -36,7 +36,7 @@ export async function getSortedPostsData() {
     const matterResult = fileContents && matter(fileContents);
     // @ts-ignore
     const imagePath = path.join(folderName, matterResult?.data.image || "");
-    const image = (await import(`./${imagePath}`)).default;
+    const image = (await import(`./${imagePath}`).catch(() => {}))?.default;
 
     // Combine the data with the id
     return matterResult && {
