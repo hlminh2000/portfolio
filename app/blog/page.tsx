@@ -9,7 +9,7 @@ import _ from 'lodash';
 const postsDirectory = path.join(process.cwd(), 'app/blog');
 
 type BlogPost = {
-  id: number
+  id: string
   title: string
   preview: string
   date: dayjs.Dayjs
@@ -31,6 +31,7 @@ export async function getSortedPostsData() {
 
     // Use gray-matter to parse the post metadata section
     const matterResult = fileContents && matter(fileContents);
+    console.log("matterResult: ", matterResult)
 
     // Combine the data with the id
     return matterResult && {
@@ -45,7 +46,7 @@ export async function getSortedPostsData() {
     } else {
       return -1;
     }
-  }).map((post ): BlogPost => {
+  }).map((post): BlogPost => {
     const parsed = post as {
       id: string,
       title: string,
@@ -53,6 +54,7 @@ export async function getSortedPostsData() {
       preview: string,
       image?: string
     }
+    console.log("parsed: ", parsed)
     return {
       ...parsed,
       date: dayjs(parsed.date),
@@ -65,36 +67,40 @@ export async function getSortedPostsData() {
 export default async function BlogPage() {
 
   const blogPosts = await getSortedPostsData();
+  console.log("blogPosts: ", blogPosts)
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 py-12">
       <div className="max-w-4xl mx-auto px-6">
         <h1 className="text-4xl font-bold mb-8">Blog Posts</h1>
         <div className="grid gap-8">
-          {blogPosts.map((post) => (
-            <article key={post.id} className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
-              {post.image && (
-                <div className="md:w-1/3">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    width={300}
-                    height={200}
-                    className="rounded-lg object-cover w-full h-48"
-                  />
+          {blogPosts.map((post) => {
+            return (
+              <article key={post.id} className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
+                {post.image && (
+                  <div className="md:w-1/3">
+                    {/* <Image
+                      src={post.image}
+                      alt={post.title}
+                      width={300}
+                      height={200}
+                      className="rounded-lg object-cover w-full h-48"
+                    /> */}
+                    {post.image}
+                  </div>
+                )}
+                <div className={post.image ? "md:w-2/3" : "w-full"}>
+                  <Link href={`/blog/${post.slug}`} className="block">
+                    <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
+                      {post.title}
+                    </h2>
+                  </Link>
+                  <p className="text-gray-400 mb-4">{post.preview}</p>
+                  <div className="text-sm text-gray-500">{post.date.format("DD/MM/YYYY")}</div>
                 </div>
-              )}
-              <div className={post.image ? "md:w-2/3" : "w-full"}>
-                <Link href={`/blog/${post.slug}`} className="block">
-                  <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
-                    {post.title}
-                  </h2>
-                </Link>
-                <p className="text-gray-400 mb-4">{post.preview}</p>
-                <div className="text-sm text-gray-500">{post.date.format("YYYYescape")}</div>
-              </div>
-            </article>
-          ))}
+              </article>
+            )
+          })}
         </div>
       </div>
     </div>
