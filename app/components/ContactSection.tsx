@@ -43,7 +43,7 @@ export const ContactSection = () => {
             required
             id="name"
             name="name"
-            className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
+            className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -55,7 +55,7 @@ export const ContactSection = () => {
             required
             id="companyLogo"
             name="companyLogo"
-            className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
+            className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -67,7 +67,7 @@ export const ContactSection = () => {
             required
             name="message"
             rows={4}
-            className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
+            className="w-full bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
