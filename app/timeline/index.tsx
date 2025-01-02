@@ -18,7 +18,7 @@ import { Timeline } from '../PageContent';
 
 export const getTimeline = async (): Promise<Timeline> => [
     {
-      year: "Jan 2021 ~ Mar 2022",
+      year: "Mar 2022 ~ Present",
       role: "Senior Fullstack Developer",
       company: "Quantropi Inc.",
       image: Quantropi_Logo,
