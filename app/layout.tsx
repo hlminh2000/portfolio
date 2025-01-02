@@ -41,9 +41,11 @@ export default function RootLayout({
         <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 z-50">
           <div className="max-w-6xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
-                Minh Ha
-              </h1>
+              <Link href="/">
+                <h1 className="text-2xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
+                  Minh Ha
+                </h1>
+              </Link>
               <div className="hidden md:flex gap-8">
                 {sections.map((section) => (
                     <Link
