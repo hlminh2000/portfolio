@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import fs from 'fs/promises';
 import path from 'path';
@@ -15,7 +15,7 @@ export type BlogPost = {
   preview: string
   date: dayjs.Dayjs
   slug: string
-  image?: string
+  image?: StaticImageData
 }
 
 

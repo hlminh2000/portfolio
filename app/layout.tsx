@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { useState } from "react";
 import Link from "next/link";
+import { ToastContainer } from "react-toastify";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,6 +40,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ToastContainer theme="dark" />
         <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 z-50">
           <div className="max-w-6xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
@@ -62,7 +65,7 @@ export default function RootLayout({
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="text-gray-400 hover:text-gray-200 transition-colors"
                 >
-                  {/* {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />} */}
+                  {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1">

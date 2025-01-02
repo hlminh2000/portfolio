@@ -2,9 +2,16 @@
 title: Gateway, origin
 date: 2020-08-15
 preview: A repost from somethine I wrote for the OICR's Software Engineering blog. The history of ARGO Gateway.
+image: ./argo_gql.jpg
 ---
+import Image from 'next/image'
+import argo_gql from "./argo_gql.jpg"
+import KF_Portal_OICR from "./KF-Portal-OICR.jpg"
+import old_system from "./old_system.jpg"
+import old_system_reality from "./old_system_reality.jpg"
+import with_gateway from "./with_gateway.jpg"
 
-<image src="{{ site.urlimg }}/minh_ha/argo_gateway/argo_gql.png" />
+<Image src={argo_gql} />
 
 # TLDR:
 
@@ -32,21 +39,21 @@ React's limitation at the time also called for complex patterns like [HOCs](http
 
 Once this question was asked, we took a step back and looked at the whole system. This was KF's architecture diagram at the time (Thank you [Rosi](/blog/category/rosi_bajari) for finding this from our archive!):
 
-<image src="{{ site.urlimg }}/minh_ha/argo_gateway/KF-Portal-OICR.png" />
+<Image src={KF_Portal_OICR} />
 
 Focusing on the "Portal UI" section, we basically have something like so:
 
-<image src="{{ site.urlimg }}/minh_ha/argo_gateway/old_system.png" />
+<Image src={old_system} />
 
 While this looked simple at first glance, it is not quite so straightforward. You might have experienced calling a business, or a government agency's service desk, who gave you some information and a different number to call the billing department, only to be given another number to call the product department... This is complex enough on your own, now imagine doing this in a team, where you and your co-worker are both calling the same departments independently, over and over. So in practice, we had something like this:
 
-<image src="{{ site.urlimg }}/minh_ha/argo_gateway/old_system_reality.png" />
+<Image src={old_system_reality} />
 
 Many features required complex wrangling of data from multiple backend services. And because business logic tends to be used in multiple places, there were multiple implementations of the same flow, resulting in duplicated work. Overtime, this took away from our frontend team's ability to focus on solving problems that are unique to the frontend, such as consistent design, responsiveness and accessibility.
 
 So we searched for ways to remove the burden of managing back-end data from the UI, and arrived here:
 
-<image src="{{ site.urlimg }}/minh_ha/argo_gateway/with_gateway.png" />
+<Image src={with_gateway} />
 
 This would not have been immediately clear for us as a path forward, without some past experience with GraphQL. GraphQL was a technology the team had been experimenting with, but it never came to be seen as a central piece of our tech stack. Some of the services built in KF were using GraphQL, but we made a big mistake of treating GraphQL as if it was REST. They were individual services with GraphQL interfaces, but it was left to the consumer (i.e the UI) to coordinate between them. Multiple GraphQL endpoint also necessarily resulted in multiple GraphQL client instances, and/or none at all. The n+1 problem that GraphQL is known for solving still remained in our experiments, and other benefits we saw did not justify the learning required. But seeing where things went wrong, we decided to give the technology another try with ARGO.
 

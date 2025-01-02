@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { BlogPost } from './blog/page';
 import Link from 'next/link';
+import { ContactSection } from './components/ContactSection';
 
 
 export type Timeline = {
@@ -51,14 +52,14 @@ const Clamped = ({ Content }: { Content: React.ReactNode }) => {
   )
 }
 
-export default function Home({ timeline, blogPosts }: { timeline: Timeline, blogPosts: BlogPost[] }) {
-  console.log(blogPosts)
-
-  const latestBlogPost = blogPosts.reduce((prev, current) => dayjs(prev.date).isAfter(dayjs(current.date)) ? prev : current)
+export default function Home(props: {
+  timeline: Timeline,
+  latestBlogPost: Omit<BlogPost, "date"> & { date: string },
+}) {
+  const { timeline, latestBlogPost } = props
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-
       <main className="pt-24 pb-12">
         {/* About Section */}
         <section id="about" className="max-w-6xl mx-auto px-6 mb-24">
@@ -92,14 +93,14 @@ export default function Home({ timeline, blogPosts }: { timeline: Timeline, blog
               <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1 relative rotate-3">
                 <div className="absolute inset-0 transform rotate-3 p-4 drop-shadow-sm">
                   <Image
-                  src={PROFILE_PIC}
-                  alt="Minh Ha"
-                  width={400}
-                  height={400}
-                  className="rounded-2xl object-cover w-full h-full"
+                    src={PROFILE_PIC}
+                    alt="Minh Ha"
+                    width={400}
+                    height={400}
+                    className="rounded-2xl object-cover w-full h-full"
                   />
                 </div>
-                </div>
+              </div>
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl -z-10 blur-2xl" />
             </div>
           </div>
@@ -108,6 +109,7 @@ export default function Home({ timeline, blogPosts }: { timeline: Timeline, blog
 
         {/* Latest Blog Post Section */}
         <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
+
           <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
           <article className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
             {latestBlogPost.image && (
@@ -131,7 +133,17 @@ export default function Home({ timeline, blogPosts }: { timeline: Timeline, blog
               <div className="text-sm text-gray-500">{dayjs(latestBlogPost.date).format("DD/MM/YYYY")}</div>
             </div>
           </article>
-          <div className="mt-6 text-center">
+
+          <article className="mt-4 h-12 bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
+            <div className="md:w-1/3 bg-gray-700 h-48 rounded-lg"></div>
+            <div className="md:w-2/3 space-y-4">
+              <div className="h-6 bg-gray-700 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+              <div className="h-4 bg-gray-700 rounded w-1/4"></div>
+            </div>
+            <div className="absolute  inset-0 bg-gradient-to-b from-gray-800 via-gray-800 to-gray-900"></div>
+          </article>
+          <div className="mt-2 text-center">
             <Link href="/blog" className="text-blue-400 hover:underline">
               View all blog posts
             </Link>
@@ -243,51 +255,10 @@ export default function Home({ timeline, blogPosts }: { timeline: Timeline, blog
                     </div>
                   )
                 })}
-                
+
               </div>
             )))}
-            <div className="mb-12 relative pl-8 border-l border-gray-800" id="contact">
-              <div className="absolute left-0 top-0 w-3 h-3 -translate-x-1.5 rounded-full bg-blue-400" />
-              <div className="mb-1 text-sm text-blue-400">{dayjs().year()}</div>
-              <h4 className="text-xl font-semibold mb-2">[Your logo here]</h4>
-              {/* <div className="text-gray-400 mb-2">Your Company Logo</div> */}
-              <div className='text-gray-400 mb-4 whitespace-pre text-wrap'>See yourself on this timeline? Tell me about you.</div>
-              <form className="space-y-4 mt-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="companyLogo" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                  <input
-                    type="text"
-                    id="companyLogo"
-                    name="companyLogo"
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
+            <ContactSection />
           </div>
         </section>
 

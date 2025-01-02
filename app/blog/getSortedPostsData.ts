@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import fs from 'fs/promises';
 import path from 'path';
@@ -14,7 +14,7 @@ export type BlogPost = {
   preview: string
   date: dayjs.Dayjs
   slug: string
-  image?: string
+  image?: StaticImageData
 }
 
 export async function getSortedPostsData() {
@@ -23,6 +23,8 @@ export async function getSortedPostsData() {
   const allPostsData = await Promise.all(fileNames.map(async (folderName) => {
     // Remove ".md" from file name to get id
     if (folderName.includes("."))  return null
+
+    console.log("folderName: ", folderName)
     
     const id = `${folderName}/page.mdx`;
 
@@ -59,7 +61,7 @@ export async function getSortedPostsData() {
       title: string,
       date: string,
       preview: string,
-      image?: string
+      image?: StaticImageData
     }
     return {
       ...parsed,
