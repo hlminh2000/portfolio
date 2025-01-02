@@ -155,7 +155,7 @@ export default function Home(props: {
 
         {/* Timeline Section */}
         <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24 z-100">
-          <h3 className="text-2xl font-bold mb-12">My Timeline</h3>
+          <h3 className="text-2xl font-bold mb-12">Where I've been</h3>
           <div className="relative">
             {_.reverse(timeline.map((item, index) => (
 
