@@ -1,14 +1,15 @@
 'use client'
 import Image, { StaticImageData } from 'next/image'
 import { ChevronDown, ChevronRight, ChevronUp, ExternalLink, Github, Linkedin } from 'lucide-react'
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { BlogPost } from './blog/page';
 import Link from 'next/link';
 import { ContactSection } from './components/ContactSection';
-
+import { AnimatedGridPattern } from './components/BackgroundGrid';
+import { FloadingBlob } from './components/FloatingBlob';
 
 export type Timeline = {
   year: string,
@@ -58,9 +59,11 @@ export default function Home(props: {
 }) {
   const { timeline, latestBlogPost } = props
 
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-      <main className="pt-24 pb-12">
+      <FloadingBlob />
+      <main className="pt-24 pb-12 z-10 relative">
         {/* About Section */}
         <section id="about" className="max-w-6xl mx-auto px-6 mb-24">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -101,7 +104,7 @@ export default function Home(props: {
                   />
                 </div>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl -z-10 blur-2xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl -blur-2xl" />
             </div>
           </div>
         </section>
@@ -111,7 +114,7 @@ export default function Home(props: {
         <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
 
           <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
-          <article className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
+          <article className="bg-gray-800/50 rounded-xl p-6 flex flex-col md:flex-row gap-6">
             {latestBlogPost.image && (
               <div className="md:w-1/3">
                 <Image
@@ -134,7 +137,7 @@ export default function Home(props: {
             </div>
           </article>
 
-          <article className="mt-4 h-12 bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
+          {/* <article className="mt-4 h-12 bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
             <div className="md:w-1/3 bg-gray-700 h-48 rounded-lg"></div>
             <div className="md:w-2/3 space-y-4">
               <div className="h-6 bg-gray-700 rounded w-3/4"></div>
@@ -142,7 +145,7 @@ export default function Home(props: {
               <div className="h-4 bg-gray-700 rounded w-1/4"></div>
             </div>
             <div className="absolute  inset-0 bg-gradient-to-b from-gray-800 via-gray-800 to-gray-900"></div>
-          </article>
+          </article> */}
           <div className="mt-2 text-center">
             <Link href="/blog" className="text-blue-400 hover:underline">
               View all blog posts
@@ -151,7 +154,7 @@ export default function Home(props: {
         </section>
 
         {/* Timeline Section */}
-        <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24">
+        <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24 z-100">
           <h3 className="text-2xl font-bold mb-12">My Timeline</h3>
           <div className="relative">
             {_.reverse(timeline.map((item, index) => (
