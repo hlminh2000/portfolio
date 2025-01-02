@@ -2,11 +2,9 @@
 import Image, { StaticImageData } from 'next/image'
 import { ChevronDown, ChevronRight, ChevronUp, ExternalLink, Github, Linkedin } from 'lucide-react'
 import { useState } from 'react';
-import Markdown from 'react-markdown';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import Link from 'next/link';
 
 const latestBlogPost = {
   id: 1,
@@ -21,29 +19,30 @@ export type Timeline = {
   year: string,
   role: string,
   company: string,
-  description: string,
+  description: React.ReactNode,
   image?: string | StaticImageData,
   projects?: {
     id: number | string,
     image?: string | StaticImageData,
     name: string,
-    description: string,
+    description: React.ReactNode,
     technologies: string[],
     highlights: string[],
     link: string
   }[]
 }[]
 
-const ClampedText = ({ text }: { text: string }) => {
+const Clamped = ({ Content }: { Content: React.ReactNode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const stringContent = (Content?.valueOf() as Array<React.ReactNode>)
+    .map((item: any) => item?.props?.children || item).join('') || ''
   return (
     <div>
-      <Markdown className={`text-gray-400 mb-4 whitespace-pre text-wrap ${isExpanded ? '' : 'line-clamp-3'}`}>
-        {text}
-      </Markdown>
+      <div className={`text-gray-400 mb-4 whitespace-pre text-wrap ${isExpanded ? '' : 'line-clamp-3'}`}>
+        {Content}
+      </div>
       {
-        text.split('\n').length > 2 && (
+        stringContent.split('\n').length > 2 && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-blue-500 hover:underline mb-8"
@@ -163,11 +162,12 @@ export default function Home({ timeline }: { timeline: Timeline }) {
                 <div className="mb-1 text-sm text-blue-400">{item.year}</div>
                 <h4 className="text-xl font-semibold mb-2">{item.role}</h4>
                 <div className="text-gray-400 mb-2">{item.company}</div>
-                <ClampedText text={item.description} />
+                <Clamped Content={item.description} />
 
 
                 {item.projects && item.projects.map(project => {
                   const [isExpanded, setIsExpanded] = useState(false);
+                  const Description = project.description;
                   return (
                     <div key={project.id} className="mb-4 last:mb-0">
                       <button
@@ -196,13 +196,13 @@ export default function Home({ timeline }: { timeline: Timeline }) {
                                 />
                               </div>
                             )}
-                            <Markdown className={
+                            <div className={
                               `text-gray-400 mb-4 ${project.image ? "md:col-span-9" : "md:col-span-12"}
                             whitespace-pre text-wrap
                             `
                             }>
-                              {project.description}
-                            </Markdown>
+                              {Description}
+                            </div>
                           </div>
 
                           <div className="mb-4">
@@ -253,7 +253,7 @@ export default function Home({ timeline }: { timeline: Timeline }) {
               <div className="mb-1 text-sm text-blue-400">{dayjs().year()}</div>
               <h4 className="text-xl font-semibold mb-2">[Your logo here]</h4>
               {/* <div className="text-gray-400 mb-2">Your Company Logo</div> */}
-              <ClampedText text="See yourself on this timeline? Tell me about you." />
+              <div className='text-gray-400 mb-4 whitespace-pre text-wrap'>See yourself on this timeline? Tell me about you.</div>
               <form className="space-y-4 mt-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>

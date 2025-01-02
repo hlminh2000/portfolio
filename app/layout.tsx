@@ -27,6 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const sections = [
+    'about',
+    'timeline',
+    // 'blog', 
+    'contact'
+  ]
   return (
     <html lang="en">
       <body
@@ -39,15 +45,15 @@ export default function RootLayout({
                 Minh Ha
               </h1>
               <div className="hidden md:flex gap-8">
-                {['about', 'timeline', 'blog', 'contact'].map((section) => (
-                  <Link
-                    key={section}
-                    href={`/#${section}`}
-                    className="capitalize text-gray-400 hover:text-gray-200 transition-colors"
-                  >
-                    {section}
-                  </Link>
-                ))}
+                {sections.map((section) => (
+                    <Link
+                      key={section}
+                      href={`/#${section}`}
+                      className="capitalize text-gray-400 hover:text-gray-200 transition-colors"
+                    >
+                      {section}
+                    </Link>
+                  ))}
               </div>
               <div className="md:hidden">
                 <button
@@ -58,16 +64,16 @@ export default function RootLayout({
                 </button>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1">
-                    {['about', 'timeline', 'blog', 'contact'].map((section) => (
-                      <a
-                        key={section}
-                        href={`#${section}`}
-                        className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        {section}
-                      </a>
-                    ))}
+                    {sections.map((section) => (
+                        <a
+                          key={section}
+                          href={`#${section}`}
+                          className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          {section}
+                        </a>
+                      ))}
                   </div>
                 )}
               </div>

@@ -22,7 +22,7 @@ export const getTimeline = async (): Promise<Timeline> => [
       role: "Senior Fullstack Developer",
       company: "Quantropi Inc.",
       image: Quantropi_Logo,
-      description: Quantropi_description,
+      description: <Quantropi_description/>,
       projects: [
         {
           id: crypto.randomUUID(),
@@ -44,12 +44,12 @@ export const getTimeline = async (): Promise<Timeline> => [
       role: "Senior Frontend Developer",
       company: "Polymath Inc.",
       image: Polymath_Logo,
-      description: Polymath_description,
+      description: <Polymath_description/>,
       projects: [
         {
           id: crypto.randomUUID(),
           name: "Onboarding Integration Service",
-          description: Polymesh_Onboarding_description,
+          description: <Polymesh_Onboarding_description/>,
           technologies: [
             "React", "TypeScript", "Node.js", "Serverless", "AWS", "SNS", "SQS"
           ],
@@ -67,13 +67,13 @@ export const getTimeline = async (): Promise<Timeline> => [
       role: "Full Stack Developer",
       company: "Ontario Institute for Cancer Research (OICR)",
       image: "https://oicr.on.ca/wp-content/themes/oicr/assets/img/logo-white.svg",
-      description: OICR_description,
+      description: <OICR_description/>,
       projects: [
         {
           id: crypto.randomUUID(),
           name: "ICGC ARGO Data Platform",
           image: ICGC_ARGO,
-          description: ICGC_ARGO_description,
+          description: <ICGC_ARGO_description/>,
           technologies: [
             "React", "TypeScript", "Next.JS", "Node.js", "GraphQL", "Apollo", "Elasticsearch", "Kubernetes", "Docker", "Kafka",
             "Ansible"
@@ -88,7 +88,7 @@ export const getTimeline = async (): Promise<Timeline> => [
         {
           id: crypto.randomUUID(),
           name: "Kids First Data Portal",
-          description: Kids_First_description,
+          description: <Kids_First_description/>,
           technologies: [
             "React", "Flow", "Node.js", "GraphQL", "Elasticsearch", "AWS", "Terraform"
           ],
@@ -105,13 +105,13 @@ export const getTimeline = async (): Promise<Timeline> => [
       role: "Software Developer",
       company: "Vretta Inc.",
       image: VRETTA_WHITE_LOGO,
-      description: Vretta_description,
+      description: <Vretta_description/>,
       projects: [
         {
           id: crypto.randomUUID(),
           name: "Dtab mobile assessment platform",
           image: "https://images.ctfassets.net/ntc8eg990zdt/4crkOqY84sNpsQ2kBqoDWz/77e2a5693d09ad03f7dac100b7c22071/DTAB_Cover_Mockup_1.svg",
-          description: Dtab_description,
+          description: <Dtab_description/>,
           technologies: ["Haxe", "Node.js", "MySQL", "PouchDB"],
           highlights: [
             "Interactive game development",
@@ -124,7 +124,7 @@ export const getTimeline = async (): Promise<Timeline> => [
           id: crypto.randomUUID(),
           name: "MathemaTIC learning platform",
           image: "https://images.ctfassets.net/ntc8eg990zdt/5SbWIK9gljyKggFZhWR40t/354f7794cb6ab2d27715054956e969b8/Mathematic_Cover_mockup_1.svg",
-          description: MathemaTIC_description,
+          description: <MathemaTIC_description/>,
           technologies: ["Haxe"],
           highlights: [
             "Interactive game development",
