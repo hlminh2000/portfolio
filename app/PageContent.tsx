@@ -6,14 +6,14 @@ import Markdown from 'react-markdown';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
 
-const latestBlogPost = {
-  id: 1,
-  title: "Building Scalable Microservices",
-  preview: "Exploring best practices for designing and implementing microservices architecture...",
-  date: "2024-12-15",
-  slug: "building-scalable-microservices",
-  image: "/images/blog/microservices.jpg"
-}
+// const latestBlogPost = {
+//   id: 1,
+//   title: "Building Scalable Microservices",
+//   preview: "Exploring best practices for designing and implementing microservices architecture...",
+//   date: "2024-12-15",
+//   slug: "building-scalable-microservices",
+//   image: "/images/blog/microservices.jpg"
+// }
 
 export type Timeline = {
   year: string,
