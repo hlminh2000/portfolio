@@ -5,15 +5,17 @@ import { useState } from 'react';
 import Markdown from 'react-markdown';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
+import _ from 'lodash';
+import Link from 'next/link';
 
-// const latestBlogPost = {
-//   id: 1,
-//   title: "Building Scalable Microservices",
-//   preview: "Exploring best practices for designing and implementing microservices architecture...",
-//   date: "2024-12-15",
-//   slug: "building-scalable-microservices",
-//   image: "/images/blog/microservices.jpg"
-// }
+const latestBlogPost = {
+  id: 1,
+  title: "Building Scalable Microservices",
+  preview: "Exploring best practices for designing and implementing microservices architecture...",
+  date: "2024-12-15",
+  slug: "building-scalable-microservices",
+  image: "/images/blog/microservices.jpg"
+}
 
 export type Timeline = {
   year: string,
@@ -56,52 +58,9 @@ const ClampedText = ({ text }: { text: string }) => {
 }
 
 export default function Home({ timeline }: { timeline: Timeline }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-      <nav className="fixed top-0 w-full bg-gray-900/95 backdrop-blur-sm border-b border-gray-800 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
-              Minh Ha
-            </h1>
-            <div className="hidden md:flex gap-8">
-              {['about', 'timeline', 'blog', 'contact'].map((section) => (
-                <a
-                  key={section}
-                  href={`#${section}`}
-                  className="capitalize text-gray-400 hover:text-gray-200 transition-colors"
-                >
-                  {section}
-                </a>
-              ))}
-            </div>
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="text-gray-400 hover:text-gray-200 transition-colors"
-              >
-                {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1">
-                  {['about', 'timeline', 'blog', 'contact'].map((section) => (
-                    <a
-                      key={section}
-                      href={`#${section}`}
-                      className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      {section}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
 
       <main className="pt-24 pb-12">
         {/* About Section */}
@@ -149,11 +108,44 @@ export default function Home({ timeline }: { timeline: Timeline }) {
           </div>
         </section>
 
+
+        {/* Latest Blog Post Section */}
+        {/* <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
+          <h3 className="text-2xl font-bold mb-8">Latest Blog Post</h3>
+          <article className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
+            {latestBlogPost.image && (
+              <div className="md:w-1/3">
+                <Image
+                  src={latestBlogPost.image}
+                  alt={latestBlogPost.title}
+                  width={300}
+                  height={200}
+                  className="rounded-lg object-cover w-full h-48"
+                />
+              </div>
+            )}
+            <div className={latestBlogPost.image ? "md:w-2/3" : "w-full"}>
+              <Link href={`/blog/${latestBlogPost.slug}`} className="block">
+                <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
+                  {latestBlogPost.title}
+                </h2>
+              </Link>
+              <p className="text-gray-400 mb-4">{latestBlogPost.preview}</p>
+              <div className="text-sm text-gray-500">{latestBlogPost.date}</div>
+            </div>
+          </article>
+          <div className="mt-6 text-center">
+            <Link href="/blog" className="text-blue-400 hover:underline">
+              View all blog posts
+            </Link>
+          </div>
+        </section> */}
+
         {/* Timeline Section */}
         <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24">
           <h3 className="text-2xl font-bold mb-12">My Timeline</h3>
           <div className="relative">
-            {timeline.map((item, index) => (
+            {_.reverse(timeline.map((item, index) => (
 
               <div key={index} className="mb-12 relative pl-8 border-l border-gray-800">
                 {item.image && (
@@ -253,45 +245,56 @@ export default function Home({ timeline }: { timeline: Timeline }) {
                     </div>
                   )
                 })}
+                
               </div>
-            ))}
+            )))}
+            <div className="mb-12 relative pl-8 border-l border-gray-800" id="contact">
+              <div className="absolute left-0 top-0 w-3 h-3 -translate-x-1.5 rounded-full bg-blue-400" />
+              <div className="mb-1 text-sm text-blue-400">{dayjs().year()}</div>
+              <h4 className="text-xl font-semibold mb-2">[Your logo here]</h4>
+              {/* <div className="text-gray-400 mb-2">Your Company Logo</div> */}
+              <ClampedText text="See yourself on this timeline? Tell me about you." />
+              <form className="space-y-4 mt-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="companyLogo" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                  <input
+                    type="text"
+                    id="companyLogo"
+                    name="companyLogo"
+                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
           </div>
         </section>
 
-        {/* Latest Blog Post Section */}
-        {/* <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
-          <h3 className="text-2xl font-bold mb-8">Latest Blog Post</h3>
-          <article className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
-            {latestBlogPost.image && (
-              <div className="md:w-1/3">
-                <Image
-                  src={latestBlogPost.image}
-                  alt={latestBlogPost.title}
-                  width={300}
-                  height={200}
-                  className="rounded-lg object-cover w-full h-48"
-                />
-              </div>
-            )}
-            <div className={latestBlogPost.image ? "md:w-2/3" : "w-full"}>
-              <Link href={`/blog/${latestBlogPost.slug}`} className="block">
-                <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
-                  {latestBlogPost.title}
-                </h2>
-              </Link>
-              <p className="text-gray-400 mb-4">{latestBlogPost.preview}</p>
-              <div className="text-sm text-gray-500">{latestBlogPost.date}</div>
-            </div>
-          </article>
-          <div className="mt-6 text-center">
-            <Link href="/blog" className="text-blue-400 hover:underline">
-              View all blog posts
-            </Link>
-          </div>
-        </section> */}
-
         {/* Contact Section */}
-        <section id="contact" className="max-w-2xl mx-auto px-6">
+        {/* <section id="contact" className="max-w-2xl mx-auto px-6">
           <div className="bg-gray-800/50 rounded-2xl p-8">
             <h3 className="text-2xl font-bold mb-8">Get in Touch</h3>
             <form className="space-y-6">
@@ -330,7 +333,7 @@ export default function Home({ timeline }: { timeline: Timeline }) {
               </button>
             </form>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   )
