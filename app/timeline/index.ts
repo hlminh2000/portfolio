@@ -14,7 +14,6 @@ import Polymath_description from './Polymath_description.md';
 import Polymesh_Onboarding_description from './Polymesh_Onboarding_description.md';
 import Quantropi_description from './Quantropi_description.md';
 
-import { join } from 'path';
 import { Timeline } from '../PageContent';
 
 export const getTimeline = async (): Promise<Timeline> => [

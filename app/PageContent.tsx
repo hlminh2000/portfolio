@@ -1,11 +1,10 @@
 'use client'
 import Image, { StaticImageData } from 'next/image'
-import { ChevronDown, ChevronRight, ChevronUp, ExternalLink, Github, Linkedin, Twitter } from 'lucide-react'
+import { ChevronDown, ChevronRight, ChevronUp, ExternalLink, Github, Linkedin } from 'lucide-react'
 import { useState } from 'react';
 import Markdown from 'react-markdown';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
-import { getTimeline } from './timeline';
 
 const latestBlogPost = {
   id: 1,
