@@ -1,3 +1,7 @@
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhlminh2000%2Fportfolio&env=RESEND_API_KEY&envDescription=API%20key%20for%20Resend&envLink=https%3A%2F%2Fresend.com%2Fdocs%2Fsend-with-nextjs&redirect-url=buymeacoffee.com%2Fhlminh2000y&demo-title=My%20portfolio&demo-description=My%20own%20personal%20portfolio&demo-url=https%3A%2F%2Fminhha.vercel.app%2F&demo-image=https%3A%2F%2Fgithub.com%2Fhlminh2000%2Fportfolio%2Fblob%2Fmain%2Fscreenshot.png%3Fraw%3Dtrue)
+
+[![screenshot](./screenshot.png)](https://minhha.vercel.app/)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
