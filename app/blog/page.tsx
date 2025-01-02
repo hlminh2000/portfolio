@@ -1,34 +1,71 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import fs from 'fs/promises';
+import path from 'path';
+import matter from 'gray-matter';
+import dayjs from 'dayjs';
+import _ from 'lodash';
 
-const blogPosts = [
-  {
-    id: 1,
-    title: "Building Scalable Microservices",
-    preview: "Exploring best practices for designing and implementing microservices architecture...",
-    date: "2024-12-15",
-    slug: "building-scalable-microservices",
-    image: "/images/blog/microservices.jpg"
-  },
-  {
-    id: 2,
-    title: "React Performance Optimization",
-    preview: "Deep dive into advanced techniques for optimizing React applications...",
-    date: "2024-11-30",
-    slug: "react-performance-optimization",
-    image: "/images/blog/react-performance.jpg"
-  },
-  {
-    id: 3,
-    title: "The Future of Web Development",
-    preview: "Analyzing emerging trends and technologies shaping the future of web development...",
-    date: "2024-11-15",
-    slug: "future-of-web-development",
-    image: "/images/blog/web-development-future.jpg"
-  }
-]
+const postsDirectory = path.join(process.cwd(), 'app/blog');
 
-export default function BlogPage() {
+type BlogPost = {
+  id: number
+  title: string
+  preview: string
+  date: dayjs.Dayjs
+  slug: string
+  image?: string
+}
+export async function getSortedPostsData() {
+  // Get file names under /posts
+  const fileNames = await fs.readdir(postsDirectory);
+  const allPostsData = await Promise.all(fileNames.map(async (folderName) => {
+    // Remove ".md" from file name to get id
+    const id = `${folderName}/page.mdx`;
+
+    // Read markdown file as string
+    const fullPath = path.join(postsDirectory, folderName, "page.mdx");
+    const fileContents = await fs.readFile(fullPath, 'utf8').catch(() => {
+      return null
+    });
+
+    // Use gray-matter to parse the post metadata section
+    const matterResult = fileContents && matter(fileContents);
+
+    // Combine the data with the id
+    return matterResult && {
+      id,
+      ...matterResult.data,
+    };
+  }));
+  // Sort posts by date
+  return allPostsData.filter(_.identity).sort((a, b) => {
+    if (dayjs(a.date).isBefore(dayjs(b.date))) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }).map((post ): BlogPost => {
+    const parsed = post as {
+      id: string,
+      title: string,
+      date: string,
+      preview: string,
+      image?: string
+    }
+    return {
+      ...parsed,
+      date: dayjs(parsed.date),
+      slug: parsed.id,
+    }
+  });
+}
+
+
+export default async function BlogPage() {
+
+  const blogPosts = await getSortedPostsData();
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 py-12">
       <div className="max-w-4xl mx-auto px-6">
@@ -54,7 +91,7 @@ export default function BlogPage() {
                   </h2>
                 </Link>
                 <p className="text-gray-400 mb-4">{post.preview}</p>
-                <div className="text-sm text-gray-500">{post.date}</div>
+                <div className="text-sm text-gray-500">{post.date.format("YYYYescape")}</div>
               </div>
             </article>
           ))}
