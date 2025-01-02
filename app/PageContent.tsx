@@ -8,14 +8,6 @@ import _ from 'lodash';
 import { BlogPost } from './blog/page';
 import Link from 'next/link';
 
-const latestBlogPost = {
-  id: 1,
-  title: "Building Scalable Microservices",
-  preview: "Exploring best practices for designing and implementing microservices architecture...",
-  date: "2024-12-15",
-  slug: "building-scalable-microservices",
-  image: "/images/blog/microservices.jpg"
-}
 
 export type Timeline = {
   year: string,
@@ -36,6 +28,7 @@ export type Timeline = {
 
 const Clamped = ({ Content }: { Content: React.ReactNode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  // @ts-ignore
   const stringContent = (Content?.valueOf().props.children as Array<React.ReactNode>)
     .map((item: any) => item?.props?.children || item).join('\n')
   return (
@@ -115,7 +108,7 @@ export default function Home({ timeline, blogPosts }: { timeline: Timeline, blog
 
         {/* Latest Blog Post Section */}
         <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
-          <h3 className="text-2xl font-bold mb-8">Latest Blog Post</h3>
+          <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
           <article className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
             {latestBlogPost.image && (
               <div className="md:w-1/3">

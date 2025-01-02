@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from './PageContent';
 import { getTimeline } from './timeline';
-import { getSortedPostsData } from './blog/page';
+import { getSortedPostsData } from './blog/getSortedPostsData';
 
 
 export default async function Page() {
