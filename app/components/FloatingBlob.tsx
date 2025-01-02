@@ -1,5 +1,5 @@
+"use client"
 import { useEffect, useRef } from "react"
-
 
 export const FloadingBlob = ( ) => {
   const blobRef = useRef<HTMLDivElement>(null)

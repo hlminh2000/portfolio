@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
+import { FloadingBlob } from './components/FloatingBlob'
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -32,7 +32,7 @@ export default function RootLayout({
   const sections = [
     'about',
     'timeline',
-    'blog', 
+    'blog',
     'contact'
   ]
   return (
@@ -51,14 +51,14 @@ export default function RootLayout({
               </Link>
               <div className="hidden md:flex gap-8">
                 {sections.map((section) => (
-                    <Link
-                      key={section}
-                      href={`/#${section}`}
-                      className="capitalize text-gray-400 hover:text-gray-200 transition-colors"
-                    >
-                      {section}
-                    </Link>
-                  ))}
+                  <Link
+                    key={section}
+                    href={section === "blog" ? "/blog" : `/#${section}`}
+                    className="capitalize text-gray-400 hover:text-gray-200 transition-colors"
+                  >
+                    {section}
+                  </Link>
+                ))}
               </div>
               <div className="md:hidden">
                 <button
@@ -70,15 +70,15 @@ export default function RootLayout({
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1">
                     {sections.map((section) => (
-                        <a
-                          key={section}
-                          href={`#${section}`}
-                          className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
-                          onClick={() => setIsDropdownOpen(false)}
-                        >
-                          {section}
-                        </a>
-                      ))}
+                      <a
+                        key={section}
+                        href={`#${section}`}
+                        className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        {section}
+                      </a>
+                    ))}
                   </div>
                 )}
               </div>
@@ -86,7 +86,10 @@ export default function RootLayout({
           </div>
         </nav>
 
-        {children}
+        <div className="relative">
+        <FloadingBlob />
+          {children}
+        </div>
       </body>
     </html>
   );

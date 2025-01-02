@@ -62,7 +62,6 @@ export default function Home(props: {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
-      <FloadingBlob />
       <main className="pt-24 pb-12 z-10 relative">
         {/* About Section */}
         <section id="about" className="max-w-6xl mx-auto px-6 mb-24">

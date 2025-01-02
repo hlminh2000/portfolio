@@ -3,7 +3,6 @@ import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { FloadingBlob } from '../components/FloatingBlob';
 
 export type BlogPost = {
   id: string
@@ -17,7 +16,6 @@ export type BlogPost = {
 export default function BlogPageContent({ blogPosts }: {blogPosts: BlogPost[]}) {
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 py-12">
-      <FloadingBlob />
       <div className="max-w-4xl mx-auto px-6 relative">
         <h1 className="text-4xl font-bold mb-8">Blog Posts</h1>
         <div className="grid gap-8">

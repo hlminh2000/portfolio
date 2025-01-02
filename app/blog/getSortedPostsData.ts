@@ -26,10 +26,10 @@ export async function getSortedPostsData() {
 
     console.log("folderName: ", folderName)
     
-    const id = `${folderName}/page.mdx`;
+    const id = `${folderName}`;
 
     // Read markdown file as string
-    const fullPath = path.join(postsDirectory, folderName, "page.mdx");
+    const fullPath = path.join(postsDirectory, folderName, "post.mdx");
     const fileContents = await fs.readFile(fullPath, 'utf8').catch(() => {
       return null
     });
