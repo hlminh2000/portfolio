@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 const postsDirectory = path.join(process.cwd(), 'app/blog');
 
-type BlogPost = {
+export type BlogPost = {
   id: string
   title: string
   preview: string

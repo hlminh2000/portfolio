@@ -5,6 +5,8 @@ import { useState } from 'react';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
 import _ from 'lodash';
+import { BlogPost } from './blog/page';
+import Link from 'next/link';
 
 const latestBlogPost = {
   id: 1,
@@ -34,11 +36,11 @@ export type Timeline = {
 
 const Clamped = ({ Content }: { Content: React.ReactNode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const stringContent = (Content?.valueOf() as Array<React.ReactNode>)
-    .map((item: any) => item?.props?.children || item).join('') || ''
+  const stringContent = (Content?.valueOf().props.children as Array<React.ReactNode>)
+    .map((item: any) => item?.props?.children || item).join('\n')
   return (
     <div>
-      <div className={`text-gray-400 mb-4 whitespace-pre text-wrap ${isExpanded ? '' : 'line-clamp-3'}`}>
+      <div className={`text-gray-400 mb-4 whitespace-pre text-wrap ${isExpanded ? '' : 'line-clamp-3'} prose prose-invert`}>
         {Content}
       </div>
       {
@@ -56,7 +58,10 @@ const Clamped = ({ Content }: { Content: React.ReactNode }) => {
   )
 }
 
-export default function Home({ timeline }: { timeline: Timeline }) {
+export default function Home({ timeline, blogPosts }: { timeline: Timeline, blogPosts: BlogPost[] }) {
+  console.log(blogPosts)
+
+  const latestBlogPost = blogPosts.reduce((prev, current) => dayjs(prev.date).isAfter(dayjs(current.date)) ? prev : current)
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
@@ -109,7 +114,7 @@ export default function Home({ timeline }: { timeline: Timeline }) {
 
 
         {/* Latest Blog Post Section */}
-        {/* <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
+        <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
           <h3 className="text-2xl font-bold mb-8">Latest Blog Post</h3>
           <article className="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6">
             {latestBlogPost.image && (
@@ -130,7 +135,7 @@ export default function Home({ timeline }: { timeline: Timeline }) {
                 </h2>
               </Link>
               <p className="text-gray-400 mb-4">{latestBlogPost.preview}</p>
-              <div className="text-sm text-gray-500">{latestBlogPost.date}</div>
+              <div className="text-sm text-gray-500">{dayjs(latestBlogPost.date).format("DD/MM/YYYY")}</div>
             </div>
           </article>
           <div className="mt-6 text-center">
@@ -138,7 +143,7 @@ export default function Home({ timeline }: { timeline: Timeline }) {
               View all blog posts
             </Link>
           </div>
-        </section> */}
+        </section>
 
         {/* Timeline Section */}
         <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24">

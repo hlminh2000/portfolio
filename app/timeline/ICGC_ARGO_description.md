@@ -1,4 +1,3 @@
-
 The International Cancer Genome Consortium Accelerating Research in Genomic Oncology (ICGC ARGO).
 
 I lead the frontend and public API development, working closely with designer, backend developers, business analyst and bioinformaticians to deliver a 
