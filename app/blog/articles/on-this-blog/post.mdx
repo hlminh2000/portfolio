@@ -8,6 +8,8 @@ image: "./codescreen.jpg"
 import Image from 'next/image'
 import claude_gen_original from './claude_gen_original.png'
 import claude_gen_1 from './claude_gen_1.png'
+import Portfolio from './ClaudeOriginal.tsx'
+import OldPromptDesign from './ClaudeOriginalPrompt.tsx'
 
 # Introduction
 
@@ -37,14 +39,7 @@ I started with my own prompt:
   Imagine something that's modern, simple but creative, dark theme with gradient. Have sections for 
   "about me", "timeline", "blog", "get in touch".
 
-Popping that into Claude, I got something like so:
-
-<Image
-  src={claude_gen_original}
-  className='rounded-lg drop-shadow-lg'
-/>
-
-This was rather basic and not what I was looking for, so I thought the prompt could be better. 
+After feeding this to a few models, the result was underwhelming, so I thought the prompt could be better. 
 I took the original prompt and dropped it into ChatGPT again, asking it to improve the prompt, like so:
 
 > improve this prompt for better result: `Generate me a concept for portfolio webpage design to showcase my work as a senior full-stack engineer. Imagine something that's modern, simple but creative, dark theme with gradient. Have sections for "about me", "timeline", "blog", "get in touch".`
@@ -60,10 +55,22 @@ bio, and a navigation bar; 'Timeline' showcasing career milestones in an elegant
 yet engaging aesthetic, using smooth transitions, well-placed highlights, and a balanced layout.
 
 Clearly this is a much better prompt that actually describe what I was going for. Dropping this into Claude
-gave the following:
+gave the following
 
-<Image
-  src={claude_gen_1}
-  className='rounded-lg drop-shadow-lg'
-/>
+## Claude for initial code generation
+
+My original prompt with Claude yielded the following:
+
+<div className='relative overflow-scroll h-96 rounded-lg'>
+  <OldPromptDesign />
+</div>
+
+With the improved prompt that ChatGPT gave me, the result was as follow:
+
+<div className='relative overflow-scroll h-96 rounded-lg'>
+  <Portfolio />
+</div>
+
+Already, you can see the resemblance to the site you're on. The original code, if you're interested,
+can be found here:
 
