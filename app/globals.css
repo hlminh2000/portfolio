@@ -117,3 +117,7 @@ body {
   top: 0;
   transform: translate(calc(-50% + 15px), -50%);
 }
+
+.Toastify__toast {
+  @apply bg-gray-900/50 backdrop-blur-sm
+}

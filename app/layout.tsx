@@ -68,7 +68,7 @@ export default function RootLayout({
                   {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1">
                     {sections.map((section) => (
                       <a
                         key={section}
