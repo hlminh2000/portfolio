@@ -79,7 +79,7 @@ export default function Home(props: {
                 I've been building products on the web across various industries. Here I share my journey, learnings, and projects.
                 <br />
                 <br />
-                When not coding, you can find me training for my next marathon / triathlon 🏊 🚴 🏃
+                When not coding, my default mode is 🏊 🚴 🏃
               </p>
               <div className="flex gap-4">
                 <a href="https://github.com/hlminh2000" className="p-2 hover:text-blue-400 transition-colors">
