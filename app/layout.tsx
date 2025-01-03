@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-gray-100`}
       >
         <ToastContainer theme="dark" />
         <nav className="fixed top-0 w-full bg-gray-900/50 backdrop-blur-sm z-50">
@@ -88,7 +88,9 @@ export default function RootLayout({
 
         <div className="relative">
           <FloadingBlob />
-          {children}
+          <div className="relative">
+            {children}
+          </div>
         </div>
       </body>
     </html>

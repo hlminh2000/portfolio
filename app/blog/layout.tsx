@@ -6,9 +6,9 @@ export default async function BlogLayout({
 }) {
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div className="min-h-screen">
       <main>
-        <div className="min-h-screen bg-gray-900 text-gray-100 pt-12">
+        <div className="min-h-screen pt-12">
           {children}
         </div>
 

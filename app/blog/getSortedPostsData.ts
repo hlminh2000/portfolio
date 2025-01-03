@@ -1,4 +1,3 @@
-'use server'
 import { StaticImageData } from 'next/image'
 import fs from 'fs/promises';
 import path from 'path';
