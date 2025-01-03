@@ -1,15 +1,13 @@
 'use client'
 import Image, { StaticImageData } from 'next/image'
 import { ChevronDown, ChevronRight, ChevronUp, ExternalLink, Github, Linkedin } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import PROFILE_PIC from './images/profile_pic.jpg'
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { BlogPost } from './blog/page';
 import Link from 'next/link';
 import { ContactSection } from './components/ContactSection';
-import { AnimatedGridPattern } from './components/BackgroundGrid';
-import { FloadingBlob } from './components/FloatingBlob';
 
 export type Timeline = {
   year: string,
