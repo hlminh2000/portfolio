@@ -3,6 +3,7 @@ import ICGC_ARGO from '../images/ICGC-ARGO.png'
 import VRETTA_WHITE_LOGO from '../images/Vretta_White_Logo.png'
 import Polymath_Logo from '../images/Polymath_Logo.svg'
 import Quantropi_Logo from '../images/Quantropi-Logo_RGB.png'
+import PPK_Extension from '../images/ppk_extension.png'
 
 import OICR_description from './OICR_description.md';
 import Vretta_description from './Vretta_description.md';
@@ -27,13 +28,39 @@ export const getTimeline = async (): Promise<Timeline> => [
         {
           id: crypto.randomUUID(),
           name: "QiSpace SEQUR PPK Generator",
-          description: "A browser extension to help Palo Alto Networks firewall administrator generate and share secret keys across multiple firewall instances.",
+          description: `
+          A browser extension to help Palo Alto Networks firewall administrator generate and share secret keys across multiple firewall instances.
+          The extension securely generates preshared keys seeded by true quantum-random numbers, and locally stores them in an ephemeral vault
+          to be shared across multiple firewall instances.
+          `,
           technologies: [
             "React", "TypeScript", "Plasmo"
           ],
+          image: PPK_Extension,
           highlights: [
-            "A year-end hackathon project that turned to a production tool",
+            "Started as a year-end experimental project, I took a lead this project from concept to production",
+            "Tightly integrated with Palo Alto's firewall management interface for secret key sharing",
+            "Designed and implemented cryptographically secure transfer and ephemeral storage of secret keys",
             "Promoted by Palo Alto Networks as a partner solution for firewall administrators",
+          ],
+          link: "https://www.quantropi.com/quantropi-partners-with-palo-alto-networks/"
+        },
+        {
+          id: crypto.randomUUID(),
+          name: "Multi-Region Deployment of QiSpace Enterprise",
+          description: `
+          To support a collaboration with Palo Alto Networks, our product QiSpace Enterprise needed to be deployable across multiple regions.
+          After evaluating various options, I proactively proposed and implemented a solution on GCP that spans three 
+          Kubernetes clusters across three regions, securing our ongoing collaboration.
+          `,
+          technologies: [
+            "Kubernetes", "Helm", "Docker", "GCP", "Node.js", "Redis", "PostgreSQL"
+          ],
+          highlights: [
+            "Proactively designed and proposed the architecture",
+            "Eliminated the need to hire a dedicated DevOps engineer",
+            "Oversaw the implementation of special API spec for entropy service",
+            "Resulted in securing ongoing collaboration with Palo Alto Networks",
           ],
           link: "https://chromewebstore.google.com/detail/qispace-sequr-ppk-generat/iebonmkoaponlbagpindbgdgclkagkah?hl=en"
         }
