@@ -71,11 +71,11 @@ export default function Home(props: {
                 Full-Stack Engineer
                 <br />
                 <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  Building the future of the web
+                  Learn, grow, code
                 </span>
               </h2>
               <p className="text-gray-300 mb-8 leading-relaxed">
-                During a brief career in finance, I stumbled into tech following my passion for code. Over the past {dayjs().diff(dayjs("01/06/2016"), "year")}+ years,
+                After a brief career in finance, I stumbled into tech following my passion for code. Over the past {dayjs().diff(dayjs("01/06/2016"), "year")}+ years,
                 I've been building products on the web across various industries. Here I share my journey, learnings, and projects.
                 <br />
                 <br />
