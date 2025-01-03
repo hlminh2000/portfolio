@@ -1,7 +1,7 @@
 ---
 title: AIs made most of this blog
 date: Fri Jan 03 2025 09:02:33 GMT-0500 (Eastern Standard Time)
-preview: How this whole page was coded up with the help of AI.
+preview: I decided to finally create a portfolio blog, and it was done in 2 days thanks to AI.
 image: "./codescreen.jpg"
 ---
 
@@ -10,13 +10,16 @@ import claude_gen_original from './claude_gen_original.png'
 import claude_gen_1 from './claude_gen_1.png'
 import Portfolio from './ClaudeOriginal.tsx'
 import OldPromptDesign from './ClaudeOriginalPrompt.tsx'
+import { V0Response } from './V0Response.tsx'
 
 # Introduction
 
+No, this post was not written with any AI involved.
+
 Somehow for the entirety of my career, I've got away without a portfolio site... I decided to change
-that this year. I didn't want a "resume on a webpage", I already have a LinkedIn page. I wanted a unique
-product where I can continuously build and experiment on, a space where I can share my journey in building
-tech, using tech. 
+that this year. ***I didn't want a "resume on a webpage"***, I already have a LinkedIn page. I wanted a 
+unique product where I can continuously build and experiment on, a space where I can share my journey 
+in building tech, using tech. 
 
 All that seemed like a lot of work, and I'm no designer, so of course I enlisted some help from a few AI 
 friends, and the page you're on was put together in under 2 days (minus the writing of blog posts - I write
@@ -26,13 +29,12 @@ Though I have a lot of other tools and thoughts that are worth going into, I wan
 how AI tools made this timeline possible. There will be more posts to come about everything else involved.
 
 ## TLDR, here's what I used:
-1. **Gemini** for concept generation
 1. **ChatGPT** for prompt generation
 1. **Claude 3.5 Sonnet** for initial code generation
 1. **v0.dev** for initial implementation
 1. **Copilot** for ongoing development
 
-## **ChatGPT** for prompt generation
+## 1. ChatGPT for prompt generation
   
 I started with my own prompt:
 > Generate me a concept for portfolio webpage design to showcase my work as a full-stack engineer. 
@@ -57,7 +59,7 @@ yet engaging aesthetic, using smooth transitions, well-placed highlights, and a 
 Clearly this is a much better prompt that actually describe what I was going for. Dropping this into Claude
 gave the following
 
-## Claude for initial code generation
+## 2. Claude for initial code generation
 
 My original prompt with Claude yielded the following:
 
@@ -71,6 +73,59 @@ With the improved prompt that ChatGPT gave me, the result was as follow:
   <Portfolio />
 </div>
 
-Already, you can see the resemblance to the site you're on. The original code, if you're interested,
-can be found here:
+Already, we can see the resemblance to the site you're on. That's just to show how a strong prompt makes 
+all the difference, thankfully an LLM can help with that too.
 
+## 3. v0.dev for initial implementation
+
+If you haven't already, you should totally check out [v0.dev](https://v0.dev). I learned about it from
+my friend Aaron at Vercel, its ability to generate UI code over multiple files that are nicely organized
+is a game changer.
+
+For this project, I knew I wanted to use Next.js (which we will get into in another post), so I dropped the 
+code that Claude gave me into v0.dev, with the following prompt:
+
+> Set up a Next.js project with this code. For the timeline, include an optional image slots for visuals. 
+  Generate a blogs page, and individual blog pages for each blog post. Do this with consistent formats 
+  using the app router.
+
+**And voi-la!** 🙌 
+
+The basic setup for my site was done ready, even comes with dynamic routing for the blog posts:
+
+<V0Response />
+
+With a few more minor prompts, V0 got me 90% of what I needed to get started: 
+- a basic layout
+- a blog page
+- the basic routing 
+- basically a style guide that I can build on top of.
+
+Once I got something I liked, it was a single command with `shadcn` to bring these components into my
+local setup to start on the coding fun.
+
+## 4. Copilot for ongoing development
+
+This one probably doesn't need much introduction. 
+
+Aside from the autocomplete - which can be rather hit-or-miss -
+it's particularly helpful for the kinds of small things that's just not worth much time to think about: 
+being able to highlight a nav bar that's broken on mobile and say *"make this responsive"* is the kind of
+productivity boost that would have saved me in my early days of web development. 
+
+I can focus on writing the code I want to write, adding the finishing touches: tilting my profile
+picture just right, adding subtle visual cues and interactions, implementing that annoying blob that's 
+been following you around all this time, etc... and of course the content and system on how I manage them.
+
+# Conclusion
+This is by no means to say that no human effort was involved in the making of this site. There were tons
+of code I still have to (or rather, **get to**) write, but being able to get a unique design and setup 
+put together in an hour is a huge productivity boost.
+
+Content site generation is certainly the "simpler" side of web development, so this alone doesn't say much about
+the usefulness of these tools for larger systems, but they're only going to get better. I'm still
+writing tons of code for this project, it's just the type of code that I prefer to.
+
+I'm a developer with - what I'd like to think - a decent eye for design, but I'm no designer. Likewise,
+how many amazing product designers out there who don't have the capacity to sit down and realize their
+beautiful designs?
