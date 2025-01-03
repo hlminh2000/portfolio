@@ -1,0 +1,69 @@
+---
+title: AIs made most of this blog
+date: Fri Jan 03 2025 09:02:33 GMT-0500 (Eastern Standard Time)
+preview: How this whole page was coded up with the help of AI.
+image: "./codescreen.jpg"
+---
+
+import Image from 'next/image'
+import claude_gen_original from './claude_gen_original.png'
+import claude_gen_1 from './claude_gen_1.png'
+
+# Introduction
+
+Somehow for the entirety of my career, I've got away without a portfolio site... I decided to change
+that this year. I didn't want a "resume on a webpage", I already have a LinkedIn page. I wanted a unique
+product where I can continuously build and experiment on, a space where I can share my journey in building
+tech, using tech. 
+
+All that seemed like a lot of work, and I'm no designer, so of course I enlisted some help from a few AI 
+friends, and the page you're on was put together in under 2 days (minus the writing of blog posts - I write
+these myself).
+
+Though I have a lot of other tools and thoughts that are worth going into, I want to focus this post on 
+how AI tools made this timeline possible. There will be more posts to come about everything else involved.
+
+## TLDR, here's what I used:
+1. **Gemini** for concept generation
+1. **ChatGPT** for prompt generation
+1. **Claude 3.5 Sonnet** for initial code generation
+1. **v0.dev** for initial implementation
+1. **Copilot** for ongoing development
+
+## **ChatGPT** for prompt generation
+  
+I started with my own prompt:
+> Generate me a concept for portfolio webpage design to showcase my work as a full-stack engineer. 
+  Imagine something that's modern, simple but creative, dark theme with gradient. Have sections for 
+  "about me", "timeline", "blog", "get in touch".
+
+Popping that into Claude, I got something like so:
+
+<Image
+  src={claude_gen_original}
+  className='rounded-lg drop-shadow-lg'
+/>
+
+This was rather basic and not what I was looking for, so I thought the prompt could be better. 
+I took the original prompt and dropped it into ChatGPT again, asking it to improve the prompt, like so:
+
+> improve this prompt for better result: `Generate me a concept for portfolio webpage design to showcase my work as a senior full-stack engineer. Imagine something that's modern, simple but creative, dark theme with gradient. Have sections for "about me", "timeline", "blog", "get in touch".`
+
+Which yielded:
+
+> Design a concept for a portfolio webpage to showcase the work of a senior full-stack engineer. 
+The design should be modern, minimalistic, and creative, with a dark theme enhanced by subtle 
+gradient accents. Include clearly defined sections: 'About Me' featuring a profile photo, a concise 
+bio, and a navigation bar; 'Timeline' showcasing career milestones in an elegant vertical layout; 
+'Blog' displaying previews of posts in a clean grid format with bold typography; and 
+'Get in Touch' with a sleek contact form and prominent social media icons. Emphasize a professional 
+yet engaging aesthetic, using smooth transitions, well-placed highlights, and a balanced layout.
+
+Clearly this is a much better prompt that actually describe what I was going for. Dropping this into Claude
+gave the following:
+
+<Image
+  src={claude_gen_1}
+  className='rounded-lg drop-shadow-lg'
+/>
+

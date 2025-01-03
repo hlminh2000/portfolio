@@ -14,7 +14,9 @@ const ArticleMetaDisplay = async ({ slug }: { slug: string }) => {
       <div className="text-blue-600 mb-4">{dayjs(articleMeta.date).format("DD/MM/YYYY")}</div>
       <div className="mb-4">{articleMeta.preview}</div>
       {/* @ts-ignore */}
-      <Image src={articleMeta.image} alt={articleMeta.title} className="rounded-lg object-cover w-full h-80" />
+      <Image src={articleMeta.image}
+      alt={articleMeta.title}
+      className="rounded-lg object-cover w-full h-80 bg-center drop-shadow-lg" />
     </>
   )
 }
