@@ -136,15 +136,15 @@ export default function Home(props: {
             </div>
           </article>
 
-          {/* <article className="mt-4 h-12 bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
-            <div className="md:w-1/3 bg-gray-700 h-48 rounded-lg"></div>
-            <div className="md:w-2/3 space-y-4">
-              <div className="h-6 bg-gray-700 rounded w-3/4"></div>
-              <div className="h-4 bg-gray-700 rounded w-1/2"></div>
-              <div className="h-4 bg-gray-700 rounded w-1/4"></div>
+          <article className="mt-4 h-12 bg-gradient-to-b from-gray-800/50 via-gray-800/10 to-gray-900/0 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
+            <div className="md:w-1/3 bg-gradient-to-b from-gray-700/20 via-gray-700/5 h-6 rounded-lg"></div>
+            <div className="md:w-2/3 space-y-4 ">
+              <div className="h-6 rounded w-3/4 bg-gradient-to-b from-gray-700/20 via-gray-700/5"></div>
+              <div className="h-4 rounded w-1/2"></div>
+              <div className="h-4 rounded w-1/4"></div>
             </div>
-            <div className="absolute  inset-0 bg-gradient-to-b from-gray-800 via-gray-800 to-gray-900"></div>
-          </article> */}
+            {/* <div className="absolute  inset-0 bg-gradient-to-b from-gray-800/50 via-gray-800/50 to-gray-900/50"></div> */}
+          </article>
           <div className="mt-2 text-center">
             <Link href="/blog" className="text-blue-400 hover:underline">
               View all blog posts

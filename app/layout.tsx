@@ -41,11 +41,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ToastContainer theme="dark" />
-        <nav className="fixed top-0 w-full bg-gray-900/90 backdrop-blur-sm border-b border-gray-800 z-50">
+        <nav className="fixed top-0 w-full bg-gray-900/50 backdrop-blur-sm z-50">
           <div className="max-w-6xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
               <Link href="/">
-                <h1 className="text-2xl font-bold bg-gradient-to-r text-white bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                   Minh Ha
                 </h1>
               </Link>
