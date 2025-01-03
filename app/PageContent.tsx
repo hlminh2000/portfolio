@@ -8,6 +8,7 @@ import _ from 'lodash';
 import { BlogPost } from './blog/page';
 import Link from 'next/link';
 import { ContactSection } from './components/ContactSection';
+import { BlogPostPreview } from './components/BlogPostPreview';
 
 export type Timeline = {
   year: string,
@@ -112,28 +113,7 @@ export default function Home(props: {
         <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
 
           <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
-          <article className="bg-gray-800/50 rounded-xl p-6 flex flex-col md:flex-row gap-6">
-            {latestBlogPost.image && (
-              <div className="md:w-1/3">
-                <Image
-                  src={latestBlogPost.image}
-                  alt={latestBlogPost.title}
-                  width={300}
-                  height={200}
-                  className="rounded-lg object-cover w-full h-48"
-                />
-              </div>
-            )}
-            <div className={latestBlogPost.image ? "md:w-2/3" : "w-full"}>
-              <Link href={`/blog/articles/${latestBlogPost.slug}`} className="block">
-                <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
-                  {latestBlogPost.title}
-                </h2>
-              </Link>
-              <p className="text-gray-400 mb-4">{latestBlogPost.preview}</p>
-              <div className="text-sm text-gray-500">{dayjs(latestBlogPost.date).format("DD/MM/YYYY")}</div>
-            </div>
-          </article>
+          <BlogPostPreview blogPost={latestBlogPost}/>
 
           <article className="mt-4 h-12 bg-gradient-to-b from-gray-800/50 via-gray-800/10 to-gray-900/0 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
             <div className="md:w-1/3 bg-gradient-to-b from-gray-700/20 via-gray-700/5 h-6 rounded-lg"></div>
@@ -307,4 +287,3 @@ export default function Home(props: {
     </div>
   )
 }
-
