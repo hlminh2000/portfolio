@@ -29,7 +29,7 @@ export const getTimeline = async (): Promise<Timeline> => [
           id: crypto.randomUUID(),
           name: "QiSpace SEQUR PPK Generator",
           description: `
-          A browser extension to help Palo Alto Networks firewall administrator generate and share secret keys across multiple firewall instances.
+          A browser extension to help Palo Alto Networks firewall administrators generate and share secret keys across multiple firewall instances.
           The extension securely generates preshared keys seeded by true quantum-random numbers, and locally stores them in an ephemeral vault
           to be shared across multiple firewall instances.
           `,
