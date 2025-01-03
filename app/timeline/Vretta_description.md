@@ -1,4 +1,4 @@
-A Toronto-based** ed-tech startup with a mission to raise the level of numeracy through innovative technology. Vretta works closely with educational institutions around the world to craft the best interactive learning resources for mathematics at all levels of education.
+A Toronto-based ed-tech startup with a mission to raise the level of numeracy through innovative technology. Vretta works closely with educational institutions around the world to craft the best interactive learning resources for mathematics at all levels of education.
 
 Lead developer of the company’s flagship assessment project.
 
