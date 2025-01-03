@@ -74,10 +74,9 @@ export default function Home(props: {
                   Building the future of the web
                 </span>
               </h2>
-              <p className="text-gray-400 mb-8 leading-relaxed">
-                With over {dayjs().diff(dayjs("01/06/2016"), "year")} years of experience in full-stack development, I specialize in building
-                scalable web applications using modern technologies. Passionate about clean code,
-                performance optimization, and creating exceptional user experiences.
+              <p className="text-gray-300 mb-8 leading-relaxed">
+                Following a brief career in finance, I stumbled into tech following my passion for code. Over the past {dayjs().diff(dayjs("01/06/2016"), "year")} years,
+                I've been building products on the web across various industries. Here I share my journey, learnings, and projects.
                 <br />
                 <br />
                 When not coding, you can find me training for my next marathon / triathlon 🏊 🚴 🏃
