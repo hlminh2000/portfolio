@@ -1,5 +1,3 @@
-import Image, { StaticImageData } from 'next/image'
-import Link from 'next/link'
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { getSortedPostsData } from './getSortedPostsData';

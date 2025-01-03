@@ -30,12 +30,13 @@ export type Timeline = {
 
 const Clamped = ({ Content }: { Content: React.ReactNode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
   // @ts-ignore
   const stringContent = (Content?.valueOf().props.children as Array<React.ReactNode>)
     .map((item: any) => item?.props?.children || item).join('\n')
   return (
     <div>
-      <div className={`text-gray-400 mb-4 whitespace-pre text-wrap ${isExpanded ? '' : 'line-clamp-3'} prose prose-invert`}>
+      <div className={`text-gray-400 mb-4 ${isExpanded ? '' : 'line-clamp-3'}`}>
         {Content}
       </div>
       {
@@ -210,7 +211,6 @@ export default function Home(props: {
                             )}
                             <div className={
                               `text-gray-400 mb-4 ${project.image ? "md:col-span-9" : "md:col-span-12"}
-                            whitespace-pre text-wrap
                             `
                             }>
                               {Description}

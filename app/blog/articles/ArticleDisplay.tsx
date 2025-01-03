@@ -13,7 +13,6 @@ export const ArticleDisplay = ({ children }: { children: ReactNode }) => {
     const init = async () => {
       const slug = window.location.pathname.split("/articles/")[1]
       const article = await Promise.resolve(slug ? getArticleBySlug(slug) : null)
-      console.log("article: ", article)
       setArticleMeta(article)
     }
     init()
