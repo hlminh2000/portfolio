@@ -27,7 +27,7 @@ export const getTimeline = async (): Promise<Timeline> => [
         {
           id: crypto.randomUUID(),
           name: "QiSpace SEQUR PPK Generator",
-          description: "",
+          description: "A browser extension to help Palo Alto Networks firewall administrator generate and share secret keys across multiple firewall instances.",
           technologies: [
             "React", "TypeScript", "Plasmo"
           ],
@@ -35,7 +35,7 @@ export const getTimeline = async (): Promise<Timeline> => [
             "A year-end hackathon project that turned to a production tool",
             "Promoted by Palo Alto Networks as a partner solution for firewall administrators",
           ],
-          link: "https://info.polymath.network/blog/onboarding-integration-service"
+          link: "https://chromewebstore.google.com/detail/qispace-sequr-ppk-generat/iebonmkoaponlbagpindbgdgclkagkah?hl=en"
         }
       ]
     },
