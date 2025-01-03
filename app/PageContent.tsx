@@ -197,7 +197,7 @@ export default function Home(props: {
 
                       {isExpanded && (
                         <div className="mt-4 pl-4 animate-fadeIn">
-                          <div className='grid grid-cols-1 md:grid-cols-12 gap-4 mb-8'>
+                          <div className='md:grid md:grid-cols-12 gap-4 mb-8 sm:flex sm:flex-col-reverse'>
                             <div className={
                               `text-gray-400 mb-4 ${project.image ? "md:col-span-9" : "md:col-span-12"}
                             `
