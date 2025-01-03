@@ -3,13 +3,7 @@ import React from 'react';
 import Post from './post.mdx';
 
 const TensorflowFizzbuzzPage = () => {
-  return (
-    <div>
-      <div className='relative prose'>
-        <Post />
-      </div>
-    </div>
-  );
+  return <Post />;
 };
 
 export default TensorflowFizzbuzzPage;

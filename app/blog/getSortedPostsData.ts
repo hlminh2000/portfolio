@@ -1,20 +1,26 @@
-import Image, { StaticImageData } from 'next/image'
-import Link from 'next/link'
+'use server'
+import { StaticImageData } from 'next/image'
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
-const postsDirectory = path.join(process.cwd(), 'app/blog');
+const postsDirectory = path.join(process.cwd(), 'app/blog/articles');
 
 export type BlogPost = {
   id: string
   title: string
   preview: string
-  date: dayjs.Dayjs
+  date: string
   slug: string
   image?: StaticImageData
+}
+
+export async function getArticleBySlug(slug: string): Promise<BlogPost | null | undefined> {
+  return getSortedPostsData().then(posts => {
+    return posts.find(post => post.slug === slug)
+  })
 }
 
 export async function getSortedPostsData() {
@@ -23,8 +29,6 @@ export async function getSortedPostsData() {
   const allPostsData = await Promise.all(fileNames.map(async (folderName) => {
     // Remove ".md" from file name to get id
     if (folderName.includes("."))  return null
-
-    console.log("folderName: ", folderName)
     
     const id = `${folderName}`;
 
@@ -38,7 +42,7 @@ export async function getSortedPostsData() {
     const matterResult = fileContents && matter(fileContents);
     // @ts-ignore
     const imagePath = path.join(folderName, matterResult?.data.image || "");
-    const image = (await import(`./${imagePath}`).catch(() => {}))?.default;
+    const image = (await import(`./articles/${imagePath}`).catch(() => {}))?.default;
 
     // Combine the data with the id
     return matterResult && {
@@ -65,7 +69,7 @@ export async function getSortedPostsData() {
     }
     return {
       ...parsed,
-      date: dayjs(parsed.date),
+      date: dayjs(parsed.date).toISOString(),
       slug: parsed.id.split("/page")[0],
     }
   });

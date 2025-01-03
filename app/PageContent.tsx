@@ -126,7 +126,7 @@ export default function Home(props: {
               </div>
             )}
             <div className={latestBlogPost.image ? "md:w-2/3" : "w-full"}>
-              <Link href={`/blog/${latestBlogPost.slug}`} className="block">
+              <Link href={`/blog/articles/${latestBlogPost.slug}`} className="block">
                 <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
                   {latestBlogPost.title}
                 </h2>

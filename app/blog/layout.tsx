@@ -1,17 +1,15 @@
-import Link from 'next/link'
 
-export default function BlogLayout({
+export default async function BlogLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
       <main>
         <div className="min-h-screen bg-gray-900 text-gray-100 pt-12">
-          <article className="max-w-3xl mx-auto px-6 prose prose-invert">
-            {children}
-          </article>
+          {children}
         </div>
 
       </main>

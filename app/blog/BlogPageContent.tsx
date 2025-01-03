@@ -21,7 +21,7 @@ export default function BlogPageContent({ blogPosts }: {blogPosts: BlogPost[]}) 
         <div className="grid gap-8">
           {blogPosts.map((post) => {
             return (
-              <article key={post.id} className="bg-gray-800/50 rounded-xl p-6 flex flex-col md:flex-row gap-6">
+              <article key={post.title} className="bg-gray-800/50 rounded-xl p-6 flex flex-col md:flex-row gap-6">
                 {post.image && (
                   <div className="md:w-1/3">
                     <Image
@@ -34,7 +34,7 @@ export default function BlogPageContent({ blogPosts }: {blogPosts: BlogPost[]}) 
                   </div>
                 )}
                 <div className={post.image ? "md:w-2/3" : "w-full"}>
-                  <Link href={`/blog/${post.slug}`} className="block">
+                  <Link href={`/blog/articles/${post.slug}`} className="block">
                     <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
                       {post.title}
                     </h2>

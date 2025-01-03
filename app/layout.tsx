@@ -87,7 +87,7 @@ export default function RootLayout({
         </nav>
 
         <div className="relative">
-        <FloadingBlob />
+          <FloadingBlob />
           {children}
         </div>
       </body>
