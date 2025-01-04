@@ -112,7 +112,7 @@ export default function Home(props: {
         <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
 
           <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
-          <BlogPostPreview blogPost={latestBlogPost}/>
+          <BlogPostPreview blogPost={latestBlogPost} />
 
           <article className="mt-4 h-12 bg-gradient-to-b from-gray-800/50 via-gray-800/10 to-gray-900/0 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
             <div className="md:w-1/3 bg-gradient-to-b from-gray-700/20 via-gray-700/5 h-6 rounded-lg"></div>
@@ -161,75 +161,79 @@ export default function Home(props: {
                   return (
                     <div key={project.id} className="mb-4 last:mb-0">
                       <button
-                      onClick={() => setIsExpanded(!isExpanded)}
-                      className="flex items-center justify-between w-full text-left bg-gray-800/50 rounded-lg p-4 hover:bg-gray-800 transition-colors"
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="flex items-center justify-between w-full text-left bg-gray-800/50 rounded-lg p-4 hover:bg-gray-800 transition-colors"
                       >
-                      <span className="font-medium text-gray-200">{project.name}</span>
-                      {isExpanded ? (
-                        <ChevronUp size={20} className="text-gray-400" />
-                      ) : (
-                        <ChevronDown size={20} className="text-gray-400" />
-                      )}
+                        <span className="font-medium text-gray-200">{project.name}</span>
+                        {isExpanded ? (
+                          <ChevronUp size={20} className="text-gray-400" />
+                        ) : (
+                          <ChevronDown size={20} className="text-gray-400" />
+                        )}
                       </button>
 
                       <div
-                      className={`mt-4 pl-4 overflow-hidden transition-max-height duration-500 ease-in-out ${isExpanded ? 'max-h-screen' : 'max-h-0'}`}
+                        className={`mt-4 pl-4 overflow-hidden transition-max-height duration-500 ease-in-out ${isExpanded ? 'max-h-screen' : 'max-h-0'}`}
                       >
-                      <div className='md:grid md:grid-cols-12 gap-4 mb-8 sm:flex sm:flex-col-reverse'>
-                        <div className={
-                        `text-gray-400 mb-4 ${project.image ? "md:col-span-9" : "md:col-span-12"}
+                        <div className='md:grid md:grid-cols-12 gap-4 mb-8 sm:flex sm:flex-col-reverse'>
+                          <div className={
+                            `text-gray-400 mb-4 ${project.image ? "md:col-span-9" : "md:col-span-12"}
                         `
-                        }>
-                        {Description}
+                          }>
+                            {Description}
+                          </div>
+                          {project.image && (
+                            <div className="md:col-span-3">
+                              <Image
+                                src={project.image}
+                                alt={`${project.name}`}
+                                width={200}
+                                height={200}
+                                className="rounded-md"
+                              />
+                            </div>
+                          )}
                         </div>
-                        {project.image && (
-                        <div className="md:col-span-3">
-                          <Image
-                          src={project.image}
-                          alt={`${project.name}`}
-                          width={200}
-                          height={200}
-                          className="rounded-md"
-                          />
+
+                        <div className="mb-4">
+                          <div className="text-sm font-medium text-gray-300 mb-2">Technologies</div>
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies.map((tech, techIndex) => (
+                              <span
+                                key={techIndex}
+                                className="px-3 py-1 bg-gray-800 rounded-full text-sm text-blue-400"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                        )}
-                      </div>
 
-                      <div className="mb-4">
-                        <div className="text-sm font-medium text-gray-300 mb-2">Technologies</div>
-                        <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech, techIndex) => (
-                          <span
-                          key={techIndex}
-                          className="px-3 py-1 bg-gray-800 rounded-full text-sm text-blue-400"
-                          >
-                          {tech}
-                          </span>
-                        ))}
+                        <div className="mb-4">
+                          <div className="text-sm font-medium text-gray-300 mb-2">Key Highlights</div>
+                          <ul className="space-y-2">
+                            {project.highlights.map((highlight, highlightIndex) => (
+                              <li key={highlightIndex} className="text-gray-400 grid grid-cols-12 gap-2">
+                                <div className='col-span-1 flex justify-center'>
+                                  <ChevronRight size={16} className="mt-1 mr-2 text-blue-400" />
+                                </div>
+                                <div className="col-span-11">
+                                  {highlight}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                      </div>
 
-                      <div className="mb-4">
-                        <div className="text-sm font-medium text-gray-300 mb-2">Key Highlights</div>
-                        <ul className="space-y-2">
-                        {project.highlights.map((highlight, highlightIndex) => (
-                          <li key={highlightIndex} className="text-gray-400 flex items-start">
-                          <ChevronRight size={16} className="mt-1 mr-2 text-blue-400" />
-                          {highlight}
-                          </li>
-                        ))}
-                        </ul>
-                      </div>
-
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center text-blue-400 hover:text-blue-300"
-                      >
-                        <ExternalLink size={16} className="mr-2" />
-                        View Project
-                      </a>
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center text-blue-400 hover:text-blue-300"
+                        >
+                          <ExternalLink size={16} className="mr-2" />
+                          View Project
+                        </a>
                       </div>
                     </div>
                   )
