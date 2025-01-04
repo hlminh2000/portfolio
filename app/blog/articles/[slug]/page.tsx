@@ -65,8 +65,10 @@ export default async function ({
         <title>{articleMeta.title}</title>
         <meta name="description" content={articleMeta.preview} />
       </Head>
-      <ArticleMetaDisplay slug={slug} />
-      <Post />
+      <div className="rounded-lg bg-gray-900/70 md:p-8 sm:p-4 p-2">
+        <ArticleMetaDisplay slug={slug} />
+        <Post />
+      </div>
     </article>
   )
 }
