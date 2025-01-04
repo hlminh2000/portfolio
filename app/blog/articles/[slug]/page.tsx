@@ -40,7 +40,7 @@ export async function generateMetadata(
     title: `Minh Ha | ${articleMeta.title}`,
     description: articleMeta.preview,
     openGraph: {
-      images: ['/some-specific-page-image.jpg', ...articleMeta.image ? [articleMeta.image.src] : []],
+      images: [...articleMeta.image ? [articleMeta.image.src] : []],
     },
   }
 }
