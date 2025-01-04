@@ -4,6 +4,8 @@ import Image from "next/image"
 import { getArticleBySlug } from "../../getSortedPostsData"
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
+import Head from "next/head"
+import { Metadata, ResolvingMetadata } from "next"
 
 const ArticleMetaDisplay = async ({ slug }: { slug: string }) => {
   const articleMeta = await getArticleBySlug(slug)
@@ -19,6 +21,28 @@ const ArticleMetaDisplay = async ({ slug }: { slug: string }) => {
         className="rounded-lg object-cover w-full h-80 bg-center drop-shadow-lg" />
     </>
   )
+}
+
+export async function generateMetadata(
+  { params, searchParams }: {
+    params: Promise<{ slug: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const { slug } = await params
+  
+  const articleMeta = await getArticleBySlug(slug)
+  if (!articleMeta) return notFound()
+
+  return {
+    title: `Minh Ha | ${articleMeta.title}`,
+    description: articleMeta.preview,
+    openGraph: {
+      images: ['/some-specific-page-image.jpg', ...articleMeta.image ? [articleMeta.image.src] : []],
+    },
+  }
 }
 
 export default async function ({
@@ -37,6 +61,10 @@ export default async function ({
 
   return (
     <article className="max-w-3xl mx-auto px-6 prose prose-invert mt-24 relative">
+      <Head>
+        <title>{articleMeta.title}</title>
+        <meta name="description" content={articleMeta.preview} />
+      </Head>
       <ArticleMetaDisplay slug={slug} />
       <Post />
     </article>

@@ -8,15 +8,10 @@ import { usePathname } from "next/navigation";
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const sections = ['about', 'timeline', 'blog', 'contact'];
-  
-  const currentPath = typeof window !== "undefined" 
-    ? window.location.pathname 
-    : sections[0];
-
   const pathName = usePathname();
+  const [activeSection, setActiveSection] = useState(sections[0]);
 
-  console.log(pathName);
-
+  const selectedPath = pathName === '/' ? activeSection : pathName.replace('#', '');
 
   return (
     <nav className="fixed top-0 w-full bg-gray-900/50 backdrop-blur-sm z-50">
@@ -32,7 +27,7 @@ export function Navbar() {
               <Link
                 key={section}
                 href={section === "blog" ? "/blog" : `/#${section}`}
-                className={`capitalize ${currentPath.includes(section) ? "text-gray-200" : "text-gray-400"} hover:text-gray-200 transition-colors`}
+                className={`capitalize ${pathName.includes(section) ? "text-gray-200" : "text-gray-400"} hover:text-gray-200 transition-colors`}
               >
                 {section}
               </Link>

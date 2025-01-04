@@ -20,7 +20,6 @@ export const metadata: Metadata = {
   description: "My journey, learnings, and projects",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{

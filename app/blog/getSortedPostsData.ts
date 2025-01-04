@@ -16,13 +16,13 @@ export type BlogPost = {
   image?: StaticImageData
 }
 
-export async function getArticleBySlug(slug: string): Promise<BlogPost | null | undefined> {
+export const getArticleBySlug = _.memoize(async (slug: string): Promise<BlogPost | null | undefined> => {
   return getSortedPostsData().then(posts => {
     return posts.find(post => post.slug === slug)
   })
-}
+})
 
-export async function getSortedPostsData() {
+export const getSortedPostsData = _.memoize(async () => {
   // Get file names under /posts
   const fileNames = await fs.readdir(postsDirectory);
   const allPostsData = await Promise.all(fileNames.map(async (folderName) => {
@@ -72,4 +72,4 @@ export async function getSortedPostsData() {
       slug: parsed.id.split("/page")[0],
     }
   });
-}
+})
