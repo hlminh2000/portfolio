@@ -2,7 +2,7 @@
 import Image, { StaticImageData } from 'next/image'
 import { ChevronDown, ChevronRight, ChevronUp, ExternalLink, Github, Linkedin } from 'lucide-react'
 import { useState } from 'react';
-import PROFILE_PIC from './images/profile_pic.jpg'
+import PROFILE_PIC from './images/profile_pic_8x.jpeg'
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { BlogPost } from './blog/page';
