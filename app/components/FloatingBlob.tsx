@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react"
 import _ from "lodash"
 
-export const FloadingBlob = ( ) => {
+export const FloatingBlob = ( ) => {
   const blobRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const current = blobRef.current

@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { FloadingBlob } from './components/FloatingBlob'
+import { FloatingBlob } from './components/FloatingBlob'
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -87,7 +87,7 @@ export default function RootLayout({
         </nav>
 
         <div className="relative">
-          <FloadingBlob />
+          <FloatingBlob />
           <div className="relative">
             {children}
           </div>
