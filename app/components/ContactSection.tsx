@@ -32,7 +32,7 @@ export const ContactSection = () => {
     <div className="mb-12 relative pl-8 border-l border-gray-800" id="contact">
       <div className="absolute left-0 top-0 w-3 h-3 -translate-x-1.5 rounded-full bg-blue-400" />
       {/* <div className="mb-1 text-sm text-blue-400">{dayjs().year()}</div> */}
-      <div className="mb-1 text-sm text-blue-400">future</div>
+      <div className="mb-1 text-sm text-blue-400">Future</div>
       <h4 className="text-xl font-semibold mb-2">[Your logo here]</h4>
       {/* <div className="text-gray-400 mb-2">Your Company Logo</div> */}
       <div className='text-gray-400 mb-4 whitespace-pre text-wrap'>See yourself on this timeline? Tell me about you.</div>
