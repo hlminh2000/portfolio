@@ -162,7 +162,7 @@ export default function Home(props: {
                     <div key={project.id} className="mb-4 last:mb-0">
                       <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="flex items-center justify-between w-full text-left bg-gray-800/50 rounded-lg p-4 hover:bg-gray-800 transition-colors"
+                        className="flex items-center justify-between w-full text-left bg-gray-800/50 rounded-lg p-4 hover:bg-gray-800/90 transition-all duration-500"
                       >
                         <span className="font-medium text-gray-200">{project.name}</span>
                         {isExpanded ? (
