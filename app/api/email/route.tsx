@@ -3,11 +3,13 @@ import { z } from 'zod';
 import { Resend } from 'resend';
 import { emailSchema } from '@/lib/utils';
 
-const EmailTemplate = ({
-  name,
-}: { name: string }) => (
+const EmailTemplate = (props: { name: string, email: string, message: string }) => (
   <div>
-    <h1>Welcome, {name}!</h1>
+    <ul>
+      <li>Name: <strong>{props.name}</strong></li>
+      <li>Email: <strong>{props.email}</strong></li>
+      <li>Message: <strong>{props.message}</strong></li>
+    </ul>
   </div>
 );
 
@@ -16,10 +18,9 @@ const sendEmail = async (args: { name: string, email: string, message: string })
   return resend.emails.send({
     from: 'Acme <onboarding@resend.dev>',
     to: ['hlminh2000@gmail.com'],
-    subject: 'Hello world',
-    react: <EmailTemplate name={args.name} />,
+    subject: `Minhified.dev blog message - ${args.name}`,
+    react: <EmailTemplate {...args} />,
   });
-
 }
 
 
