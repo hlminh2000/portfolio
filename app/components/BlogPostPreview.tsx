@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Link from 'next/link';
 import { BlogPost } from '../blog/BlogPageContent';
 
-export const BlogPostPreview = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date: string } }) => {
+const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date: string } }) => {
   return (
     <Link href={`/blog/articles/${blogPost.slug}`} className="block">
       <article className="bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-6 flex flex-col md:flex-row gap-6 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
@@ -31,3 +31,5 @@ export const BlogPostPreview = ({ blogPost }: { blogPost: Omit<BlogPost, "date">
     </Link>
   )
 }
+
+export const BlogPostPreview = BlogPostPrev

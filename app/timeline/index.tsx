@@ -15,7 +15,24 @@ import Polymath_description from './Polymath_description.md';
 import Polymesh_Onboarding_description from './Polymesh_Onboarding_description.md';
 import Quantropi_description from './Quantropi_description.md';
 
-import { Timeline } from '../PageContent';
+import { StaticImageData } from 'next/image'
+
+export type Timeline = {
+  year: string,
+  role: string,
+  company: string,
+  description: React.ReactNode,
+  image?: string | StaticImageData,
+  projects?: {
+    id: number | string,
+    image?: string | StaticImageData,
+    name: string,
+    description: React.ReactNode,
+    technologies: string[],
+    highlights: string[],
+    link: string
+  }[]
+}[]
 
 export const getTimeline = async (): Promise<Timeline> => [
     {
