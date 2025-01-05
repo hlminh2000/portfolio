@@ -23,7 +23,7 @@ export type Timeline = {
   company: string,
   description: React.ReactNode,
   image?: string | StaticImageData,
-  projects?: {
+  projects: {
     id: number | string,
     image?: string | StaticImageData,
     name: string,
