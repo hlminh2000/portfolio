@@ -67,7 +67,7 @@ export default async function Page() {
                 Full-Stack Engineer
                 <br />
                 <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  Learn, grow, code
+                  Learn, code, grow
                 </span>
               </h2>
               <p className="text-gray-300 mb-8 leading-relaxed">
