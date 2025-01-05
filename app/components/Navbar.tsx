@@ -9,6 +9,7 @@ export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const sections = ['about', 'timeline', 'blog', 'contact'];
   const pathName = usePathname();
+
   const [activeSection, setActiveSection] = useState(sections[0]);
 
   const selectedPath = pathName === '/' ? activeSection : pathName.replace('#', '');

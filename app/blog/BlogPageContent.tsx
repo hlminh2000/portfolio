@@ -20,7 +20,7 @@ export default function BlogPageContent({ blogPosts }: {blogPosts: BlogPost[]}) 
       <div className="max-w-4xl mx-auto px-6 relative">
         <h1 className="text-4xl font-bold mb-8">Blog Posts</h1>
         <div className="grid gap-8">
-          {blogPosts.map((post) => <BlogPostPreview blogPost={{ ...post, date: dayjs(post.date).toISOString() }} />)}
+          {blogPosts.map((post) => <BlogPostPreview key={post.id} blogPost={{ ...post, date: dayjs(post.date).toISOString() }} />)}
         </div>
       </div>
     </div>
