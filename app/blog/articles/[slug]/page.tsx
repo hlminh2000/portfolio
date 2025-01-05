@@ -8,7 +8,7 @@ import { Metadata, ResolvingMetadata } from "next"
 
 
 export async function generateStaticParams() {
-  return (await getSortedPostsData()).map(post => post.slug)
+  return (await getSortedPostsData()).map(post => ({ slug: post.slug }))
 }
 
 export async function generateMetadata(
