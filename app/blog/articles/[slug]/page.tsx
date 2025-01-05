@@ -1,10 +1,15 @@
 
 import dayjs from "dayjs"
 import Image from "next/image"
-import { getArticleBySlug } from "../../getSortedPostsData"
+import { getArticleBySlug, getSortedPostsData } from "../../getSortedPostsData"
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { Metadata, ResolvingMetadata } from "next"
+
+
+export async function generateStaticParams() {
+  return (await getSortedPostsData()).map(post => post.slug)
+}
 
 export async function generateMetadata(
   { params, searchParams }: {
