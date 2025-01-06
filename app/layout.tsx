@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import Script from "next/script";
+import profilePic from './images/profile_pic_8x.jpeg'
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,7 +22,14 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Minh Ha",
-  description: "My journey, learnings, and projects",
+  description: "My journey, learnings, and projects in tech",
+  authors: [{ name: "Minh Ha", url: "https://minhified.codes" }],
+  openGraph: {
+    title: "Minh Ha",
+    description: "My journey, learnings, and projects in tech",
+    images: profilePic.src,
+    type: "website"
+  }
 };
 
 export default function RootLayout({

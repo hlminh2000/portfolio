@@ -5,6 +5,7 @@ import { getArticleBySlug, getSortedPostsData } from "../../getSortedPostsData"
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { Metadata, ResolvingMetadata } from "next"
+import { Author } from "next/dist/lib/metadata/types/metadata-types"
 
 
 export async function generateStaticParams() {
@@ -24,10 +25,19 @@ export async function generateMetadata(
   const articleMeta = await getArticleBySlug(slug)
   if (!articleMeta) return notFound()
 
-  return {
+  const meta: Metadata = {
     title: `Minh Ha | ${articleMeta.title}`,
     description: articleMeta.preview,
+    authors: [{ name: "Minh Ha", url: "https://minhified.codes" }],
+  }
+
+  return {
+    ...meta,
     openGraph: {
+      authors: new URL("https://minhified.codes"),
+      type: "article",
+      title: meta.title || "",
+      description: meta.description || "",
       images: [...articleMeta.image ? [articleMeta.image.src] : []],
     },
   }
