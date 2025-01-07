@@ -27,13 +27,28 @@ by back-end APIs that allow them to read and write data without reloading entire
 is not the only reason to build a server-side API, it is more often than not, the only reason 
 why many of them exists.
 
-With the advent of tRPC and (mostly) Server Action in React, many of these APIs are no longer
-needed. In this post, let's go into what this means for the web.
+Today we have have more options that allow the browser to call backend functions without having
+to build a web API, at least I'm aware of:
+  - **tRPC**
+  - **Laraval Livewire**
+  - **Next.js Server Actions**
+
+Of course underneath the hood, the browser still has to communicate with a backend over AJAX calls,
+however we simply won't be hand-coding web APIs anywhere nearly as often. For web development
+overall, there'll be some implications.
+
+***Ackowledgement:** I am predominently a JS developer, so my opinion is strongly skewed by the
+developments in JS land, particularly with React and Next.js. I recognize that this is still in
+the bleeding edge, and if these tools do take over, it won't be tomorrow - I myself am continuing
+to work on APIs that are built specifically for the browser to consume.*
 
 ## 1. Everyone is full-stack now
-With the modern web, it's been a while now that 
+Gone are the days when *"Front end developer"* were working on HTML, CSS and a sprinkle of JS for
+novice interactivity.
 
-## 2. Use cases for APIs
+## 2. Web APIs will be less common
+No we will still be building Web APIs (whether it be REST, GraphQL or RPC etc...), but they will
+only make sense for specific situations.
 
 ## 3. Some challenges:
 
