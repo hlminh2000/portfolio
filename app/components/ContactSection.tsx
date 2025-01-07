@@ -1,5 +1,5 @@
 'use client'
-import { sendEmail } from "@/lib/sendEmail";
+import { sendEmail } from "@/lib/actions/sendEmail";
 import { emailSchema } from "@/lib/utils";
 import dayjs from "dayjs"
 import React, { DOMAttributes } from "react"
