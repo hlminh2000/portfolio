@@ -16,8 +16,9 @@ export const sendEmail = async (args: { name: string, email: string, message: st
   const {data, error } = emailSchema.safeParse(args)
   if(error) throw error
   const resend = new Resend(process.env.RESEND_API_KEY);
+  console.log(`${args.name} <${args.email}>: ${args.message}`)
   return resend.emails.send({
-    from: 'Acme <onboarding@resend.dev>',
+    from: 'Minhified.Codes blog <onboarding@resend.dev>',
     to: ['hlminh2000@gmail.com'],
     subject: `Minhified.dev blog message - ${args.name}`,
     react: <EmailTemplate {...data} />,
