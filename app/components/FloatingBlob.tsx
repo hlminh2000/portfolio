@@ -8,7 +8,6 @@ export const FloatingBlob = ( ) => {
   useEffect(() => {
     const current = blobRef.current
     if (!current) return
-    console.log("isMobile: ", isMobile)
     if (isMobile) {
       const onTouchMove = _.throttle((e: TouchEvent) => {
         // current.style.transform = `translate3d(calc(${e.touches.item(0)?.clientX}px - 50%), calc(${e.touches.item(0)?.clientY}px - 50%), 0)`
