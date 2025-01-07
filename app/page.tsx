@@ -1,5 +1,5 @@
 import React, { Suspense, use } from 'react';
-import { getTimeline } from './timeline';
+import { getTimeline } from './components/timeline';
 import { getSortedPostsData } from './blog/getSortedPostsData';
 import dayjs from 'dayjs';
 import Image from 'next/image';

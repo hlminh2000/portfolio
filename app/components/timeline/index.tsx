@@ -1,9 +1,9 @@
 
-import ICGC_ARGO from '../images/ICGC-ARGO.png'
-import VRETTA_WHITE_LOGO from '../images/Vretta_White_Logo.png'
-import Polymath_Logo from '../images/Polymath_Logo.svg'
-import Quantropi_Logo from '../images/Quantropi-Logo_RGB.png'
-import PPK_Extension from '../images/ppk_extension.png'
+import ICGC_ARGO from '../../images/ICGC-ARGO.png'
+import VRETTA_WHITE_LOGO from '../../images/Vretta_White_Logo.png'
+import Polymath_Logo from '../../images/Polymath_Logo.svg'
+import Quantropi_Logo from '../../images/Quantropi-Logo_RGB.png'
+import PPK_Extension from '../../images/ppk_extension.png'
 
 import OICR_description from './OICR_description.md';
 import Vretta_description from './Vretta_description.md';

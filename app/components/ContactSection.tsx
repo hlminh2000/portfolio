@@ -1,4 +1,5 @@
 'use client'
+import { sendEmail } from "@/lib/sendEmail";
 import { emailSchema } from "@/lib/utils";
 import dayjs from "dayjs"
 import React, { DOMAttributes } from "react"
@@ -18,13 +19,7 @@ export const ContactSection = () => {
       error.issues.forEach(issue => toast.error(issue.message))
       return 
     }
-    await fetch('/api/email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    await sendEmail(data)
     return toast.success("Your message has been sent! I will get back to you soon.")
   }
 

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { ChevronDown, ChevronRight, ChevronUp, ExternalLink } from 'lucide-react'
 import { useState } from 'react';
 import _ from 'lodash';
-import { Timeline } from '../timeline';
+import { Timeline } from './timeline';
 
 export const TimelineProject = ({ project }: { project: Timeline[number]['projects'][number] }) => {
 
