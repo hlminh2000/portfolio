@@ -6,7 +6,19 @@ preview: |
   capturing and managing container logs can be a tricky task. This article might provide a hint.
 image: ./docker_syslog_2.jpeg
 ---
-import Image from 'next/image'
+
+# tldr
+- When running Docker containers on bare linux OS, generating and managing log files for containers 
+is best done by the host machine, not the application container.
+- This can be achieved by:
+  1. Configure Docker daemon to use `syslog` driver
+  1. Configure `rsyslog` to direct logs to separate file
+  1. Configure log rotation with `logrotate`
+- In practice, unless there's a special needs, such as interfacing with specialized hardware,
+it's not a good idea to run Docker in bare linux machines in production. If you're building a new 
+application in 2025, please consider:
+  - A serverless model (maybe something like Next.JS with Vercel / Netlify)
+  - A container orchestration service (such as AWS's ECS or ELK, or Kubernetes on GCP)
 
 # The problem
 
