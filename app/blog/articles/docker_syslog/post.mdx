@@ -1,0 +1,87 @@
+---
+title: Managing Docker Container Logs through Linux Syslog
+date: 2025-01-07
+preview: |
+  If you ever find yourself having to maintain long-running docker containers in a linux host,
+  capturing and managing container logs can be a tricky task. This article might provide a hint.
+image: ./docker_syslog_2.jpeg
+---
+import Image from 'next/image'
+
+# The problem
+
+Due to specialized hardware requirement, a system I inherited was only deployable on bare-metal
+Linux boxes. As any long-running service goes, being able to capture and rotate logs were crucial
+in the operation of such system. Here's are basic requirements:
+- The logs must be **captured in disk for archiving**
+- The logs files must be **rotated periodically and removed** from disk to avoid build-up
+- The log file **content must follow a consistent format** to be parsed by reporting system
+
+There were multiple application components, each running in its own Docker container. To achieve
+the above goals, the original system had the applications implement these logging logics, either 
+through logging libraries (such as `winston` for Node.js applications, and the `logging` module
+for Python), or a fully custom implementation in the case of C/C++. A common volumn was then mounted
+on all logging containers to capture the logs generated. This presents a few problems:
+ 1. Inconsistent implementation across different applications
+ 1. Additional complexities in application requiring developer attention
+ 1. Operator did not have direct control over the log rotation policy
+
+Over time, this was clearly not a sustainable solution.
+
+# The solution
+
+Instead of leaving it to the applications to implement these logging logic, it's possible to simply let
+the appplication log to standard IO, then handle the rest at the host OS through [`syslog`](https://en.wikipedia.org/wiki/Syslog).
+
+***Note:*** I operate mostly on Ubuntu servers, the specific for your flavour of Linux might differ.
+
+To do this, we need to:
+
+### 1. Configure Docker daemon to use `syslog` driver:
+Your Docker daemon config is likely found at `/etc/docker/daemon.json`. Edit this to something like so:
+```json
+{
+  // ... other configs
+  "log-driver": "syslog",
+  "log-opts": {
+    "syslog-address": "unixgram:///dev/log",
+    "tag": "docker/{{.Name}}",
+    "syslog-facility": "daemon"
+  }
+}
+```
+Here we are specifying:
+- `log-driver` tells Docker which logging driver to use, in this case, `syslog`
+- `log-opts` includes the specific configuration for the driver [as documented here](https://docs.docker.com/engine/logging/drivers/syslog/#options).
+In this case, we have:
+  - `syslog-address`: specify that we want to use the host machine's standard system logging entry point
+  at `/dev/log`. Theoretically, a remote syslog server that implements the `syslog` protocol over `tcp`
+  or `udp` can also be used.
+  - `tag`: a tag to attach to each log line. This will help us direct the logs to the right file later.
+  - `syslog-facility`: see [https://en.wikipedia.org/wiki/Syslog#Facility](https://en.wikipedia.org/wiki/Syslog#Facility)
+
+Once updated, restart the docker service as so:
+```bash
+sudo systemctl restart docker
+```
+Once your containers are back, you should now be able to see your Docker containers logging to `/var/log/syslog`,
+you can follow the file as so:
+```bash
+sudo tail -f /var/log/syslog
+```
+
+### 2. Configure `rsyslog` to direct logs to individual files
+The folder `/etc/rsyslog.d` contains rsyslog configurations for log processing rules. We can start with creating
+a new configuration file, say `docker-containers.conf` with the command:
+```bash 
+sudo touch /etc/rsyslog.d/docker-containers.conf
+```
+Your config file may look something like:
+```conf
+$template DockerContainerLogs,"/var/log/%syslogtag:R,ERE,1,ZERO:.*docker/([^\[]+)--end%.log"
+
+if $syslogtag contains 'docker/'  then -?DockerContainerLogs
+
+& stop
+```
+notice 
