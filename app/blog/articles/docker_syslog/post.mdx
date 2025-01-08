@@ -134,13 +134,17 @@ This configuration:
 For a more indepth guide on `logrotate` configurations, check out 
 [this article](https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/)
 
-### 4. Caveats
+### 4. Caveats & other notes
 
-Logs must be properly directed to the container’s console. Ensure:
-1. The main application process runs with PID 1 (tools like [`tini`](https://github.com/krallin/tini) can help), or
-2. Run containers with TTY enabled:
-   - `docker run -t ...`
-   - Include `tty: true` in `docker-compose.yaml`.
+1. Logs must be properly directed to the container’s console. Ensure:
+    1. The main application process runs with PID 1 (tools like [`tini`](https://github.com/krallin/tini) can help), or
+    2. Run containers with TTY enabled:
+      - `docker run -t ...`
+      - Include `tty: true` in `docker-compose.yaml`.
+2. Here we covered generating and managing log files, but how to get use out of them is another
+large topic. We won't go into it here, however, you may injest these log files into Elastic
+or other log processors to make them ultimately accessible by interested parties.
+
 
 # Conclusion
 
