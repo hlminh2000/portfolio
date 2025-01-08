@@ -14,7 +14,7 @@ Due to specialized hardware requirement, a system I inherited was only deployabl
 Linux boxes. As any long-running service goes, being able to capture and rotate logs were crucial
 in the operation of such system. Here's are basic requirements:
 - The logs must be **captured in disk for archiving**
-- The logs files must be **rotated periodically and removed** from disk to avoid build-up
+- The log files must be **rotated periodically and removed** from disk to avoid build-up
 - The log file **content must follow a consistent format** to be parsed by reporting system
 
 There were multiple application components, each running in its own Docker container. To achieve
@@ -25,6 +25,8 @@ on all logging containers to capture the logs generated. This presents a few pro
  1. Inconsistent implementation across different applications
  1. Additional complexities in application requiring developer attention
  1. Operator did not have direct control over the log rotation policy
+ 1. The log management is tied to container's life, so if a container is having issue starting,
+ its logs may never get rotated
 
 Over time, this was clearly not a sustainable solution.
 
@@ -38,18 +40,18 @@ the appplication log to standard IO, then handle the rest at the host OS through
 To do this, we need to:
 
 ### 1. Configure Docker daemon to use `syslog` driver:
-Your Docker daemon config is likely found at `/etc/docker/daemon.json`. Edit this to something like so:
-```json
-{
-  // ... other configs
-  "log-driver": "syslog",
-  "log-opts": {
-    "syslog-address": "unixgram:///dev/log",
-    "tag": "docker/{{.Name}}",
-    "syslog-facility": "daemon"
+My Docker daemon config was found at `/etc/docker/daemon.json`. I editted this to something like so:
+  ```json
+  {
+    // ... other configs
+    "log-driver": "syslog",
+    "log-opts": {
+      "syslog-address": "unixgram:///dev/log",
+      "tag": "docker_containers.log",
+      "syslog-facility": "daemon"
+    }
   }
-}
-```
+  ```
 Here we are specifying:
 - `log-driver` tells Docker which logging driver to use, in this case, `syslog`
 - `log-opts` includes the specific configuration for the driver [as documented here](https://docs.docker.com/engine/logging/drivers/syslog/#options).
@@ -58,30 +60,83 @@ In this case, we have:
   at `/dev/log`. Theoretically, a remote syslog server that implements the `syslog` protocol over `tcp`
   or `udp` can also be used.
   - `tag`: a tag to attach to each log line. This will help us direct the logs to the right file later.
-  - `syslog-facility`: see [https://en.wikipedia.org/wiki/Syslog#Facility](https://en.wikipedia.org/wiki/Syslog#Facility)
+  - `syslog-facility`: see [Wikipedia](https://en.wikipedia.org/wiki/Syslog#Facility)
 
 Once updated, restart the docker service as so:
-```bash
-sudo systemctl restart docker
-```
-Once your containers are back, you should now be able to see your Docker containers logging to `/var/log/syslog`,
-you can follow the file as so:
-```bash
-sudo tail -f /var/log/syslog
-```
+  ```bash
+  sudo systemctl restart docker
+  ```
+Once my containers are back, I can now see my Docker containers logging to `/var/log/syslog`, by following it
+like so:
+  ```bash
+  sudo tail -f /var/log/syslog
+  ```
 
 ### 2. Configure `rsyslog` to direct logs to individual files
 The folder `/etc/rsyslog.d` contains rsyslog configurations for log processing rules. We can start with creating
 a new configuration file, say `docker-containers.conf` with the command:
-```bash 
-sudo touch /etc/rsyslog.d/docker-containers.conf
-```
+  ```bash 
+  sudo touch /etc/rsyslog.d/docker-containers.conf
+  ```
 Your config file may look something like:
-```conf
-$template DockerContainerLogs,"/var/log/%syslogtag:R,ERE,1,ZERO:.*docker/([^\[]+)--end%.log"
+  ```conf
+  $template DockerContainerLogs,"/var/log/%syslogtag"
 
-if $syslogtag contains 'docker/'  then -?DockerContainerLogs
+  if $syslogtag contains 'docker_containers.log'  then -?DockerContainerLogs
 
-& stop
-```
-notice 
+  & stop
+  ```
+Here `$syslogtag` corresponds to to the `log-opts.tag` configured in the `/etc/docker/daemon.json` config earlier.
+
+Once the update is complete, `rsyslog` needs to be restarted like so:
+  ```bash
+  sudo systemctl restart rsyslog
+  ```
+
+We now have all docker container logs being captured in `/var/log/docker_containers.log`.  I kept it simple by piping 
+everything into one file, but it is possible to include further splitting by attaching the container names and other info 
+on the file name.
+
+### 3. Configure log rotation and cleanup
+If we leave things as is, the `docker_containers.log` file will continue to grow indefinitely, eventually taking up
+all the disk space in our host machine. To prevent this, we can configure log rotation to do the following:
+  
+  1. **Periodically rotate the content of `docker_containers.log` into a new file and empty out `docker_containers.log`**
+
+      This can be achieved by configuring `logrotate`. The configuration is typically broken down into multiple
+      files under `/etc/logrotate.d`, so I created a new file `/etc/logrotate.d/docker-containers`, which looks
+      like so: 
+      ```
+      /var/log/containers/docker_containers.log {
+          daily
+          rotate 7
+          create 0640 syslog adm
+          missingok
+          notifempty
+          postrotate
+              /usr/lib/rsyslog/rsyslog-rotate
+          endscript
+      }
+      ```
+      This configuration effectively says: ***"rotate docker_containers.log every 2 day, creating the new file with `0604`
+      permission, under `syslog adm` ownership, skip the operation if the file is missing or empty"***
+  
+      Overtime, we will have files like so:
+      ```bash
+      minhified@host:~$ ll /var/log/ | grep docker_containers.log
+      -rw-r-----  1 syslog adm        33305 Jan  8 11:10 docker_containers.log
+      -rw-r-----  1 syslog adm         7588 Jan  8 00:00 docker_containers.log.1
+      -rw-r-----  1 syslog adm         8531 Jan  6 23:50 docker_containers.log.2
+      -rw-r-----  1 syslog adm         7120 Jan  6 00:00 docker_containers.log.3
+      -rw-r-----  1 syslog adm         7107 Jan  5 00:00 docker_containers.log.4
+      -rw-r-----  1 syslog adm         8243 Jan  4 00:00 docker_containers.log.5
+      -rw-r-----  1 syslog adm         7109 Jan  3 00:00 docker_containers.log.6
+      -rw-r-----  1 syslog adm         7141 Jan  2 00:00 docker_containers.log.7
+      ```
+      This would allow us to operate on old logs without impacting the main `docker_containers.log` file.
+      More intricate configurations can also be applied, such as specifying a size cutoff for the log file
+      in addition to / instead of the periodical rotation. See [this](https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/) 
+      for more details.
+  2. **Configure a periodical cleanup**
+
+      This is a simple cron job to periodically 
