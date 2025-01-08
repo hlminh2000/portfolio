@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { MotionNav } from "./Motion";
 
 
 export function Navbar() {
@@ -15,7 +16,7 @@ export function Navbar() {
   const selectedPath = pathName === '/' ? activeSection : pathName.replace('#', '');
 
   return (
-    <nav className="fixed top-0 w-full bg-gray-900/50 backdrop-blur-sm z-50">
+    <MotionNav className="fixed top-0 w-full bg-gray-900/50 backdrop-blur-sm z-50" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}>
       <div className="max-w-6xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/">
@@ -58,6 +59,6 @@ export function Navbar() {
           </div>
         </div>
       </div>
-    </nav>
+    </MotionNav>
   );
 }

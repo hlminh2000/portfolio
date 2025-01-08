@@ -12,6 +12,7 @@ import { BlogPostPreview } from './components/BlogPostPreview';
 import { Clamped } from './components/Clamped';
 import { TimelineProject } from './components/TimelineProject';
 import { BlogPreviewPlaceholder } from './components/BlogPreviewPlaceholder';
+import { MotionMain, MotionSection, RevealOnScroll } from './components/Motion';
 
 const LatestBlogPreview = async () => {
   const blogPosts = await getSortedPostsData()
@@ -28,25 +29,26 @@ const TimelineDisplay = async () => {
       {
         _.reverse(timeline.map((item, index) => (
           <div key={index} className="mb-12 relative pl-8 border-l border-gray-800">
-            {item.image && (
-              <div className="mb-4">
-                <Image
-                  src={item.image}
-                  alt={`${item.company} logo`}
-                  width={100}
-                  height={100}
-                  className="rounded-md"
-                />
-              </div>
-            )}
-            <div className="absolute left-0 top-0 w-3 h-3 -translate-x-1.5 rounded-full bg-blue-400" />
-            <div className="mb-1 text-sm text-blue-400">{item.year}</div>
-            <h4 className="text-xl font-semibold mb-2">{item.role}</h4>
-            <div className="text-gray-400 mb-2">{item.company}</div>
-            <Clamped Content={item.description} />
+            <RevealOnScroll>
+              {item.image && (
+                <div className="mb-4">
+                  <Image
+                    src={item.image}
+                    alt={`${item.company} logo`}
+                    width={100}
+                    height={100}
+                    className="rounded-md"
+                  />
+                </div>
+              )}
+              <div className="absolute left-0 top-0 w-3 h-3 -translate-x-1.5 rounded-full bg-blue-400" />
+              <div className="mb-1 text-sm text-blue-400">{item.year}</div>
+              <h4 className="text-xl font-semibold mb-2">{item.role}</h4>
+              <div className="text-gray-400 mb-2">{item.company}</div>
+              <Clamped Content={item.description} />
 
-            {item.projects && item.projects.map(project => <TimelineProject project={project} />)}
-
+              {item.projects && item.projects.map(project => <TimelineProject project={project} />)}
+            </RevealOnScroll>
           </div>
         )))
       }
@@ -54,14 +56,28 @@ const TimelineDisplay = async () => {
   )
 }
 
+const motionContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.5
+    }
+  }
+}
+
+const motionItem = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1 }
+}
 
 export default async function Page() {
   return (
-    <div className="min-h-screen ">
-      <main className="pt-24 pb-12 z-10 relative">
+    <div className="min-h-screen">
+      <MotionMain className="pt-24 pb-12 z-10 relative" initial="hidden" animate="show" variants={motionContainer}>
         {/* About Section */}
-        <section id="about" className="max-w-6xl mx-auto px-6 mb-24">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+        <MotionSection id="about" className="max-w-6xl mx-auto px-6 mb-24" variants={motionItem}>
+          <div className="grid md:grid-cols-2 gap-12 items-center" >
             <div>
               <h2 className="text-4xl font-bold mb-6">
                 Full-Stack Engineer
@@ -101,17 +117,17 @@ export default async function Page() {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl -blur-2xl" />
             </div>
           </div>
-        </section>
+        </MotionSection>
 
 
         {/* Latest Blog Post Section */}
-        <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
+        <MotionSection id="blog" className="max-w-4xl mx-auto px-6 mb-24" variants={motionItem}>
 
           <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
           <Suspense fallback={
             <BlogPreviewPlaceholder />
           }>
-            <LatestBlogPreview/>
+            <LatestBlogPreview />
           </Suspense>
 
           <article className="mt-4 h-12 bg-gradient-to-b from-gray-800/50 via-gray-800/10 to-gray-900/0 rounded-xl p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
@@ -128,10 +144,10 @@ export default async function Page() {
               View all blog posts
             </Link>
           </div>
-        </section>
+        </MotionSection>
 
         {/* Timeline Section */}
-        <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24 z-100">
+        <MotionSection id="timeline" className="max-w-4xl mx-auto px-6 mb-24 z-100" variants={motionItem}>
           <h3 className="text-2xl font-bold mb-12">Where I've been</h3>
           <div className="relative">
             <Suspense>
@@ -139,7 +155,7 @@ export default async function Page() {
             </Suspense>
             <ContactSection />
           </div>
-        </section>
+        </MotionSection>
 
         {/* Contact Section */}
         {/* <section id="contact" className="max-w-2xl mx-auto px-6">
@@ -182,8 +198,7 @@ export default async function Page() {
             </form>
           </div>
         </section> */}
-      </main>
+      </MotionMain>
     </div>
   )
-
 }

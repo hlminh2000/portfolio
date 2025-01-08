@@ -2,6 +2,7 @@
 import { isMobile } from 'react-device-detect';
 import { useEffect, useRef } from "react"
 import _ from "lodash"
+import { MotionDiv } from './Motion';
 
 export const FloatingBlob = ( ) => {
   const blobRef = useRef<HTMLDivElement>(null)
@@ -26,5 +27,5 @@ export const FloatingBlob = ( ) => {
     }
   }, [])
 
-  return <div id="blob" ref={blobRef} />
+  return <MotionDiv initial={{opacity: 0}} whileInView={{opacity: 1}} id="blob" ref={blobRef} />
 }
