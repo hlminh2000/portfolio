@@ -1,0 +1,159 @@
+---
+title: Managing Docker Container Logs through Linux Syslog
+date: 2025-01-07
+preview: |
+  If you ever find yourself maintaining long-running Docker containers on a Linux host,
+  capturing and managing container logs can be a tricky task. This article might provide some insights.
+image: ./docker_syslog.jpeg
+---
+
+# TL;DR
+- When running Docker containers on a bare Linux OS, managing log files is best done by the host machine, not the application container.
+- This can be achieved by:
+  1. Configuring the Docker daemon to use the `syslog` driver.
+  2. Configuring `rsyslog` to direct logs to a separate file.
+  3. Configuring log rotation with `logrotate`.
+- In practice, unless there are special needs (e.g., specialized hardware), it’s not advisable to run Docker directly on bare Linux machines in production. If you’re building a new application in 2025, consider:
+  - A serverless model (e.g., Next.js with Vercel or Netlify).
+  - A container orchestration service (e.g., AWS ECS, EKS, or Kubernetes on GCP).
+
+# The Problem
+
+Due to a specialized hardware requirement, I inherited a system deployable only on bare-metal Linux boxes. As with any long-running service, capturing and rotating logs was crucial. Here were the basic requirements:
+- **Logs must be captured on disk for archiving.**
+- **Log files must be rotated periodically and removed** to prevent build-up.
+- **Log file content must follow a consistent format** to enable parsing by reporting systems.
+
+The system had multiple application components, each running in its own Docker container. Initially, the solution implemented these logging requirements in the applications themselves, using:
+- Logging libraries (e.g., `winston` for Node.js and the `logging` module for Python).
+- Custom implementations for C/C++ applications.
+
+Logs were written to a shared volume mounted on all containers. However, this approach introduced several issues:
+1. Inconsistent implementation across applications.
+2. Additional complexity requiring developer attention.
+3. Operators had no direct control over log rotation policies.
+4. Log management was tied to the container’s lifecycle. If a container failed to start, its logs might never be rotated.
+
+Over time, it became clear this solution was unsustainable. Here’s the improved approach we adopted.
+
+# The Solution
+
+Instead of implementing logging logic in applications, the applications logged to standard I/O, while the host OS handled the rest using [`syslog`](https://en.wikipedia.org/wiki/Syslog).
+
+**Note:** This solution is based on Ubuntu servers; specifics may vary for other Linux distributions.
+
+### 1. Configure Docker Daemon to Use the `syslog` Driver
+
+The Docker daemon configuration is typically found at `/etc/docker/daemon.json`. Update it to include:
+
+```json
+{
+  "log-driver": "syslog",
+  "log-opts": {
+    "syslog-address": "unixgram:///dev/log",
+    "tag": "docker_containers.log",
+    "syslog-facility": "daemon"
+  }
+}
+```
+
+Explanation:
+- `log-driver`: Specifies the `syslog` logging driver.
+- `syslog-address`: Specifies the host’s system logging entry point (`/dev/log`). Remote syslog servers using TCP or UDP are also supported.
+- `tag`: Attaches a tag to each log line to help direct logs to the appropriate file later.
+- `syslog-facility`: Defines the facility level for logs (see [Wikipedia](https://en.wikipedia.org/wiki/Syslog#Facility)).
+
+Restart the Docker service to apply changes:
+```bash
+sudo systemctl restart docker
+```
+
+To verify, you can tail the system logs:
+```bash
+sudo tail -f /var/log/syslog
+```
+
+You can test with an ephemeral container:
+```bash
+docker run -it bash -c "echo hello"
+```
+
+### 2. Configure `rsyslog` to Direct Logs to a Separate File
+
+To separate container logs from other system logs, configure `rsyslog`:
+
+1. Create a new configuration file:
+```bash
+sudo touch /etc/rsyslog.d/docker-containers.conf
+```
+
+2. Edit the file to include:
+```conf
+$template DockerContainerLogs,"/var/log/%syslogtag"
+
+if $syslogtag contains 'docker_containers.log' then -?DockerContainerLogs
+
+& stop
+```
+
+The `$syslogtag` corresponds to the `log-opts.tag` set in `daemon.json`.
+
+Restart `rsyslog` to apply the configuration:
+```bash
+sudo systemctl restart rsyslog
+```
+
+Now, all Docker container logs are captured in `/var/log/docker_containers.log`.
+
+### 3. Configure Log Rotation
+
+To prevent `docker_containers.log` from growing indefinitely, configure `logrotate`:
+
+1. Create a new file:
+```bash
+sudo touch /etc/logrotate.d/docker-containers
+```
+
+2. Add the following configuration:
+```conf
+/var/log/docker_containers.log {
+    daily
+    rotate 7
+    create 0640 syslog adm
+    missingok
+    notifempty
+}
+```
+
+This configuration:
+- Rotates the log file daily.
+- Keeps seven days’ worth of logs.
+- Creates new log files with `0640` permissions under `syslog adm` ownership.
+- Skips rotation if the file is missing or empty.
+
+For a more indepth guide on `logrotate` configurations, check out 
+[this article](https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/)
+
+### 4. Caveats & other notes
+
+1. Logs must be properly directed to the container’s console. Ensure:
+    1. The main application process runs with PID 1 (tools like [`tini`](https://github.com/krallin/tini) can help), or
+    2. Run containers with TTY enabled:
+      - `docker run -t ...`
+      - Include `tty: true` in `docker-compose.yaml`.
+2. Here we covered generating and managing log files, but how to get use out of them is another
+large topic. We won't go into it here, however, you may injest these log files into Elastic
+or other log processors to make them ultimately accessible by interested parties.
+
+
+# Conclusion
+
+This approach centralizes log management on the host machine, offering:
+1. Consistent metadata for all logs.
+2. Standardized log formats.
+3. Simplified application development, as logging logic is offloaded to the host.
+
+While managing Docker containers on bare Linux is complex, this method mitigates some challenges. 
+However, unless specific requirements apply (e.g., specialized hardware, high-security systems, 
+or a delivery model targeting host deployments), modern systems are better suited for container 
+orchestrators or serverless models. I'd like to touch on these on a future post.
