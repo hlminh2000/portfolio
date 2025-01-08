@@ -122,9 +122,6 @@ sudo touch /etc/logrotate.d/docker-containers
     create 0640 syslog adm
     missingok
     notifempty
-    postrotate
-        /usr/lib/rsyslog/rsyslog-rotate
-    endscript
 }
 ```
 
