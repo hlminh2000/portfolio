@@ -1,4 +1,5 @@
 'use client'
+import { Button } from "@/components/ui/button";
 import { sendEmail } from "@/lib/actions/sendEmail";
 import { emailSchema } from "@/lib/utils";
 import dayjs from "dayjs"
@@ -68,12 +69,12 @@ export const ContactSection = () => {
             onChange={(e) => setMessage(e.target.value)}
           />
         </div>
-        <button
+        <Button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
+          className="w-full"
         >
           Send Message
-        </button>
+        </Button>
       </form>
     </div>
   )
