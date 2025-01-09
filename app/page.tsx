@@ -12,7 +12,7 @@ import { BlogPostPreview } from './components/BlogPostPreview';
 import { Clamped } from './components/Clamped';
 import { TimelineProject } from './components/TimelineProject';
 import { BlogPreviewPlaceholder } from './components/BlogPreviewPlaceholder';
-import { MotionMain, MotionSection, RevealOnScroll } from './components/Motion';
+import { RevealOnScroll } from './components/Motion';
 
 const LatestBlogPreview = async () => {
   const blogPosts = await getSortedPostsData()
@@ -56,27 +56,12 @@ const TimelineDisplay = async () => {
   )
 }
 
-const motionContainer = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.5
-    }
-  }
-}
-
-const motionItem = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1 }
-}
-
 export default async function Page() {
   return (
     <div className="min-h-screen">
-      <MotionMain className="pt-24 pb-12 z-10 relative" initial="hidden" animate="show" variants={motionContainer}>
+      <main className="pt-24 pb-12 z-10 relative">
         {/* About Section */}
-        <MotionSection id="about" className="max-w-6xl mx-auto px-6 mb-24" variants={motionItem}>
+        <section id="about" className="max-w-6xl mx-auto px-6 mb-24">
           <div className="grid md:grid-cols-2 gap-12 items-center" >
             <div>
               <h2 className="text-4xl font-bold mb-6">
@@ -117,11 +102,11 @@ export default async function Page() {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl -blur-2xl" />
             </div>
           </div>
-        </MotionSection>
+        </section>
 
 
         {/* Latest Blog Post Section */}
-        <MotionSection id="blog" className="max-w-4xl mx-auto px-6 mb-24" variants={motionItem}>
+        <section id="blog" className="max-w-4xl mx-auto px-6 mb-24">
 
           <h3 className="text-2xl font-bold mb-8">Latest Post</h3>
           <Suspense fallback={
@@ -144,10 +129,10 @@ export default async function Page() {
               View all blog posts
             </Link>
           </div>
-        </MotionSection>
+        </section>
 
         {/* Timeline Section */}
-        <MotionSection id="timeline" className="max-w-4xl mx-auto px-6 mb-24 z-100" variants={motionItem}>
+        <section id="timeline" className="max-w-4xl mx-auto px-6 mb-24 z-100">
           <h3 className="text-2xl font-bold mb-12">Where I've been</h3>
           <div className="relative">
             <Suspense>
@@ -155,7 +140,7 @@ export default async function Page() {
             </Suspense>
             <ContactSection />
           </div>
-        </MotionSection>
+        </section>
 
         {/* Contact Section */}
         {/* <section id="contact" className="max-w-2xl mx-auto px-6">
@@ -198,7 +183,7 @@ export default async function Page() {
             </form>
           </div>
         </section> */}
-      </MotionMain>
+      </main>
     </div>
   )
 }
