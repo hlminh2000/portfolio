@@ -15,7 +15,7 @@ export function Navbar() {
   const selectedPath = pathName === '/' ? activeSection : pathName.replace('#', '');
 
   return (
-    <nav>
+    <nav className="fixed top-0 w-full bg-gray-900/50 backdrop-blur-sm z-50">
       <div className="max-w-6xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/">
