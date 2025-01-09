@@ -13,7 +13,9 @@ image: ./docker_syslog.jpeg
   1. Configuring the Docker daemon to use the `syslog` driver.
   2. Configuring `rsyslog` to direct logs to a separate file.
   3. Configuring log rotation with `logrotate`.
-- In practice, unless there are special needs (e.g., specialized hardware), it’s not advisable to run Docker directly on bare Linux machines in production. If you’re building a new application in 2025, consider:
+- In practice, unless there are special needs (e.g., specialized hardware), it’s not advisable to 
+  run Docker directly on bare Linux machines in production. Most simple web-based applications 
+  shoud consider:
   - A serverless model (e.g., Next.js with Vercel or Netlify).
   - A container orchestration service (e.g., AWS ECS, EKS, or Kubernetes on GCP).
 
@@ -155,5 +157,6 @@ This approach centralizes log management on the host machine, offering:
 
 While managing Docker containers on bare Linux is complex, this method mitigates some challenges. 
 However, unless specific requirements apply (e.g., specialized hardware, high-security systems, 
-or a delivery model targeting host deployments), modern systems are better suited for container 
-orchestrators or serverless models. I'd like to touch on these on a future post.
+or a delivery model targeting host deployments), most modern systems are better suited for container 
+orchestrators or serverless models. I'd like to touch on the pros and cons of these in a future
+post.
