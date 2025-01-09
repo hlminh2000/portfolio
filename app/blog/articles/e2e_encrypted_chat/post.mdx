@@ -53,7 +53,7 @@ More than anything, this is an excuse to have some fun building stuff, and it su
 - [**Vercel**](https://vercel.com/)
 
     This choice does place a limitation since Vercel doesn't provide any support for long-running
-    processes (I kind of miss ZEIT's `now` here). 
+    processes (I kind of miss ZEIT's `now.sh` here). 
     
     Since I need a signaling channel without my own server, a third-party pubsub or message broker
     was needed, for which I went for:
@@ -74,6 +74,13 @@ More than anything, this is an excuse to have some fun building stuff, and it su
     Clearly rolling my own was not worth it for myself as the developer, nor as a user. So I went
     for the good-old Auth0.
 
+# On Key Encapsulation (KEM)
+I wanted to dedicate a small section on KEM and key exchange, since most folks are not cryptographers
+(neither am I).
+
+You're probably familiar with symetric encryption, where a secret string is used to encrypt and
+decrypt data.
+
 # Challenges
 - Serverless signaling
 - WebRTC connection issues
@@ -85,5 +92,6 @@ More than anything, this is an excuse to have some fun building stuff, and it su
 # Limitations
 - 1-on-1 sessions only
 - Limits on free resources
+- The public key that's exchanged are not signed
 
 # Conclusion
