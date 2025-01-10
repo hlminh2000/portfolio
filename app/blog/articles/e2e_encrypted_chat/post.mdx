@@ -79,7 +79,41 @@ I wanted to dedicate a small section on KEM and key exchange, since most folks a
 (neither am I).
 
 You're probably familiar with symetric encryption, where a secret string is used to encrypt and
-decrypt data.
+decrypt data. This is great for secure securing data at rest, where encryption and decryption is
+performed by the same key, it is not directly useful when trying to secure a communication channel.
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+sequenceDiagram
+    participant A as Alice
+    participant B as Bob
+
+    Note over A,B: Initial Setup
+    A->>A: Generate keypair (pk_a, sk_a)
+    B->>B: Generate keypair (pk_b, sk_b)
+    
+    Note over A,B: Key Exchange
+    A->>B: Send public key (pk_a)
+    B->>A: Send public key (pk_b)
+    
+    Note over A: Encapsulation
+    A->>A: cipher_a, secret_a = encap(pk_b)
+    A->>B: Send cipher_a
+    
+    Note over B: Encapsulation
+    B->>B: cipher_b, secret_b = encap(pk_a)
+    B->>A: Send cipher_b
+    
+    Note over A: Decapsulation
+    A->>A: peer_secret_a = decap(cipher_b, sk_a)
+    A->>A: shared_secret = XOR(secret_a, peer_secret_a)
+    
+    Note over B: Decapsulation
+    B->>B: peer_secret_b = decap(cipher_a, sk_b)
+    B->>B: shared_secret = XOR(secret_b, peer_secret_b)
+    
+    Note over A,B: Both parties now have the same shared_secret
+```
 
 # Challenges
 - Serverless signaling
