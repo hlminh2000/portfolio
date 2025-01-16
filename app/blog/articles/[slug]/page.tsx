@@ -74,8 +74,8 @@ export default async function ({
   const { slug } = await params
 
   return (
-    <article className="max-w-3xl mx-auto px-6 prose prose-invert mt-24 relative">
-      <div className="rounded-lg bg-gray-900/70 md:p-8 sm:p-4 p-2">
+    <article className="max-w-3xl mx-auto md:px-6 sm:px-0 prose prose-invert mt-14 lg:mt-24 relative">
+      <div className="rounded-lg bg-gray-900/70 p-4 sm:p-6 md:p-8">
         <Suspense fallback={
           <>
             <div className="bg-gray-800/50 text-4xl font-bold mb-8 h-14" />
