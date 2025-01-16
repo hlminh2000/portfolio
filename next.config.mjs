@@ -2,7 +2,7 @@ import createMDX from '@next/mdx'
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import rehypePrettyCode from "rehype-pretty-code";
-
+import mdxMermaid from 'mdx-mermaid'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configure `pageExtensions` to include markdown and MDX files
@@ -23,10 +23,15 @@ const withMDX = createMDX({
     // If you use remark-gfm, you'll need to use next.config.mjs
     // as the package is ESM only
     // https://github.com/remarkjs/remark-gfm#install
-    remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+    remarkPlugins: [
+      [mdxMermaid, { output: 'svg' }],
+      remarkFrontmatter, 
+      remarkMdxFrontmatter,
+    ],
     rehypePlugins: [
       (args) => rehypePrettyCode({ ...args, keepBackground: false })
     ],
+
     // If you use `MDXProvider`, uncomment the following line.
     // providerImportSource: "@mdx-js/react",
   },
