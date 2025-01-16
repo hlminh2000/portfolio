@@ -54,7 +54,7 @@ const ArticleMetaDisplay = async ({ slug }: { slug: string }) => {
       {/* @ts-ignore */}
       <Image src={articleMeta.image}
         alt={articleMeta.title}
-        className="rounded-lg object-cover w-full h-96 bg-center drop-shadow-lg" />
+        className="rounded-lg object-cover w-full h-52 sm:h-72 md:h-80 lg:h-96 bg-center drop-shadow-lg" />
     </>
   )
 }
