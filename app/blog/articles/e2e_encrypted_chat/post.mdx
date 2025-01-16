@@ -11,15 +11,23 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Github, Linkedin } from 'lucide-react'
 
-<div className='mb-8 '>
-    <a href="https://github.com/hlminh2000" className="p-2 hover:text-blue-400 transition-colors mb-8">
-        <Github size={24} />
-    </a>
-    <Link href={"https://pqchat.minhified.codes"} target='_blank'>
+<div className='mb-8 flex align-middle gap-2'>
+    <Link href="https://github.com/hlminh2000/pqchat" target='_blank'>
+        <Button><Github /></Button>
+    </Link>
+
+    <Link href="https://pqchat.minhified.codes" target='_blank'>
         <Button>Check out the app</Button>
     </Link>
 </div>
 
+# TL;DR
+- I built a toy end-to-end encrypted chat app for fun using modern web tools: Next.js, WebRTC, and Ably.
+- Experimented with encryption using mlkem, a post-quantum key exchange mechanism.
+- Learned about the trade-offs of using WebRTC, including the need for signaling and TURN servers despite being "peer-to-peer."
+- Faced challenges like serverless signaling and handling WebRTC connection stability.
+- Limitations: No public key authentication, only supports 1-on-1 chats, and relies on free-tier services.
+- Overall, it was an enjoyable learning project blending cryptography theory with practical implementation.
 
 # Introduction
 
