@@ -2,7 +2,7 @@ import createMDX from '@next/mdx'
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import rehypePrettyCode from "rehype-pretty-code";
-import mdxMermaid from 'mdx-mermaid'
+import rehypeMermaid from 'rehype-mermaid'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Configure `pageExtensions` to include markdown and MDX files
@@ -29,7 +29,8 @@ const withMDX = createMDX({
       remarkMdxFrontmatter,
     ],
     rehypePlugins: [
-      (args) => rehypePrettyCode({ ...args, keepBackground: false })
+      (args) => rehypePrettyCode({ ...args, keepBackground: false }),
+      rehypeMermaid
     ],
 
     // If you use `MDXProvider`, uncomment the following line.
