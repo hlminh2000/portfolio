@@ -10,6 +10,7 @@ image: ./encrypted.jpeg
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Github, Linkedin } from 'lucide-react'
+import { Mermaid } from '@/components/ui/Mermaid'
 
 <div className='mb-8 flex align-middle gap-2'>
     <Link href="https://github.com/hlminh2000/pqchat" target='_blank'>
@@ -123,8 +124,7 @@ the communication can then be secured with good old symetric algorithms.
 
 For this app, I've implemented a pretty common key-exchange mechanism that looks like the below:
 
-```mermaid
-%%{init: {'theme':'dark'}}%%
+<Mermaid chart={`
 sequenceDiagram
     participant A as Alice
     participant B as Bob
@@ -132,29 +132,29 @@ sequenceDiagram
     Note over A,B: Initial Setup
     A->>A: Generate keypair (pk_a, sk_a)
     B->>B: Generate keypair (pk_b, sk_b)
-    
+
     Note over A,B: Key Exchange
     A->>B: Send public key (pk_a)
     B->>A: Send public key (pk_b)
-    
+
     Note over A: Encapsulation
     A->>A: cipher_a, secret_a = encap(pk_b)
     A->>B: Send cipher_a
-    
+
     Note over B: Encapsulation
     B->>B: cipher_b, secret_b = encap(pk_a)
     B->>A: Send cipher_b
-    
+
     Note over A: Decapsulation
     A->>A: secret_b = decap(cipher_b, sk_a)
     A->>A: shared_secret = XOR(secret_a, secret_b)
-    
+
     Note over B: Decapsulation
     B->>B: secret_a = decap(cipher_a, sk_b)
     B->>B: shared_secret = XOR(secret_b, secret_a)
-    
+
     Note over A,B: Alice and Bob have same shared_secret
-```
+`}/>
 
 Here, ML-KEM essentially provides the `generateKeypair`, `encap` and `decap` functions that are
 shown in this diagram.
