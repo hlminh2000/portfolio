@@ -234,16 +234,16 @@ usage requirements, and hence that it must be used carefully in order to provide
 This project has several limitations that make it unsuitable for production use:  
 
 1. **1-on-1 Sessions Only**  
-   The app supports only direct communication between two peers. Adding group chat functionality would require significant changes to the architecture, especially around key management.
+   The app supports only direct communication between two peers. Adding group chat functionality would require significant changes to the architecture.
 
-2. **Limits on Free Resources**  
-   Services like Ably, Metered, and Vercel’s free tiers work well for small-scale experiments but would quickly become a bottleneck in a high-traffic scenario.
-
-3. **Unsigned Public Keys**  
+1. **Unsigned Public Keys**  
    Technically speaking this means that a middleman could still spoof it by using presenting his
    own public key pretending it is Alice's key when talking to Bob, and vise versa. The solution here would
    be for Alice and Bob to sign their public key with a trusted authority. Not an impossible thing to fix
-   but will have to wait for another day. Maybe we'll have a future post for this :) 
+   but will have to wait for another day. Maybe we'll have a future post for this :)
+
+1. **Limits on Free Resources**  
+   Services like Ably, Metered, and Vercel’s free tiers work well for small-scale experiments but would quickly become a bottleneck in a high-traffic scenario.
 
 ---
 
