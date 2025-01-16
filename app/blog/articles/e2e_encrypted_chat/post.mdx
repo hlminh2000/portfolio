@@ -1,6 +1,6 @@
 ---
 title: Building an E2E Encrypted Chat App
-date: 2025-01-08
+date: 2025-01-15
 preview: |
   Over the holiday season last year, I built a toy E2E encrypted chat app as a year-end experiment.
   Here I share a a little bit of how the my experiment went, and the fun encryption tech along the
@@ -155,6 +155,9 @@ sequenceDiagram
     
     Note over A,B: Alice and Bob have same shared_secret
 ```
+
+Here, ML-KEM essentially provides the `generateKeypair`, `encap` and `decap` functions that are
+shown in this diagram.
 
 # Challenges
 
