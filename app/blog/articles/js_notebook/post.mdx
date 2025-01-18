@@ -1,0 +1,128 @@
+---
+title: Jupyter Notebook for the JS-minded
+date: 2025-01-17
+preview: |
+  If you're a weirdo like me, you want to code interactively in Jupyter Notebooks but you don't want 
+  to deal with python and would prefer JS (or TS for that matter), this might help.
+image: ./js_notebook_1.jpeg
+---
+# Why?...
+
+Well, I love using [Observable.hq](https://observablehq.com/) for communicating lightweight data research, 
+but the idea of all my work being hosted exclusively by a service is not very appealing... Python folks 
+have Jupyter notebooks, which I really like, but frankly Python just doesn't "spark joy" for me... so I 
+looked for a way to run JS (and prefarably TS) in Jupyter. Turned out it works quite well!
+
+# The solution
+
+Here's an `npm` package to help:
+```bash
+npm install -g tslab
+tslab install -g
+```
+
+And, if you're as big a weirdo as me, and want the whole setup to be replicatable, here's a Dockerfile
+that has everything set up:
+
+```dockerfile
+FROM ubuntu:jammy
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install basic utilities and dependencies
+RUN apt-get update && apt-get install -y \
+  curl \
+  git \
+  python3 \
+  python3-pip \
+  build-essential \
+  apt-transport-https \
+  ca-certificates \
+  software-properties-common \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install Docker
+RUN curl -fsSL https://get.docker.com -o get-docker.sh \
+  && sh get-docker.sh \
+  && rm get-docker.sh
+
+# Install Node.js 20 from NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+  && apt-get install -y nodejs \
+  && npm install -g npm@latest
+
+# Create a non-root user that will be mapped to the host user
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+# Create the user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && mkdir -p /etc/sudoers.d \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Add user to docker group
+RUN usermod -aG docker $USERNAME
+
+# Install global Node.js packages
+RUN npm install -g tslab \
+    && mkdir -p /home/$USERNAME/.local/share/jupyter/kernels \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.local
+
+# Install Jupyter Notebook for the user
+RUN pip3 install notebook
+
+# Set working directory
+WORKDIR /workspace
+RUN chown $USERNAME:$USERNAME /workspace
+
+# Switch to non-root user
+USER $USERNAME
+
+# Setup tslab for the user
+RUN tslab install
+
+# Default command
+CMD ["/bin/bash"]
+```
+
+And a `devcontainer.json` to follow:
+
+```json
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "Ubuntu",
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"args": {
+			"USERNAME": "vscode",
+			"USER_UID": "1000",
+			"USER_GID": "1000"
+		}
+	},
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+	],
+	"remoteUser": "vscode",
+	"updateRemoteUserUID": true
+}
+
+```
+
+# Usecase
+So what do I actually use this for? Mostly for writing light data-wrangling pipelines, and 
+building llm agents :P I like to work in JS for the smooth translation into a product with
+vercel's AI sdk.
+
+# Limitations
+One big one is visualization... stepping away from Python means stepping away from a lot of 
+heavy weight tools in the data science world, including the amazing stuff backed by `matplotlib`
+... Ironically the frontend language that is JS does make this more tricky.
+
+Technically tslab does provide support for rich media presentation with html, but who wants
+to really write out big html and svg manually... Jupiter Magic might also help here, but I
+haven't tried it out yet... We may find out more in future.
