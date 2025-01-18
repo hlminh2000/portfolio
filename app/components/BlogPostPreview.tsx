@@ -8,9 +8,9 @@ import { BlogPost } from '../blog/BlogPageContent';
 const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date: string } }) => {
   return (
     <Link href={`/blog/articles/${blogPost.slug}`} className="block">
-      <article className="bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-6 flex flex-col md:flex-row gap-6 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
+      <article className="bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-6 flex flex-col sm:flex-row gap-6 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
         {blogPost.image && (
-          <div className="md:w-1/3">
+          <div className="sm:w-1/3">
             <Image
               src={blogPost.image}
               alt={blogPost.title}
@@ -20,7 +20,7 @@ const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date:
             />
           </div>
         )}
-        <div className={blogPost.image ? "md:w-2/3" : "w-full"}>
+        <div className={blogPost.image ? "sm:w-2/3" : "w-full"}>
           <h2 className="text-2xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">
             {blogPost.title}
           </h2>
