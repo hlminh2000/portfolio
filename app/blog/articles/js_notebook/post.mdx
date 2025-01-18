@@ -9,10 +9,14 @@ image: ./js_notebook.png
 ---
 # Why?...
 
-Well, I love using [Observable.hq](https://observablehq.com/) for communicating lightweight data research, 
+Well, I love using [Observable.hq](https://observablehq.com/) for doing lightweight data research, 
 but the idea of all my work being hosted exclusively by a service is not very appealing... Python folks 
-have Jupyter notebooks, which I really like, but frankly Python just doesn't "spark joy" for me... so I 
-looked for a way to run JS (and prefarably TS) in Jupyter. Turned out it works quite well!
+have Jupyter notebooks, which I really like, but frankly Python just doesn't "spark joy" for me... 
+
+While building chatbots, my preferred application stack is Next.js with Vercel's AI SDK. But I miss
+being able to document the steps I took to build the agent.
+
+So I looked for a way to run JS (and prefarably TS) in Jupyter. Turned out it works quite well!
 
 # The solution
 
@@ -113,11 +117,6 @@ And a `devcontainer.json` to follow:
 }
 
 ```
-
-# Usecase
-So what do I actually use this for? Mostly for writing light data-wrangling pipelines, and 
-building llm agents :P I like to work in JS for the smooth translation into a product with
-vercel's AI sdk.
 
 # Limitations
 One big one is visualization... stepping away from Python means stepping away from a lot of 
