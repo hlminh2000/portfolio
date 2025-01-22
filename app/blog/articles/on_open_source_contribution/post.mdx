@@ -1,0 +1,56 @@
+---
+title: How Most Open-Source Contributions Happen (And Why It’s Not What You Think)
+date: Fri Jan 22 2025 21:00:00 GMT-0500 (Eastern Standard Time)
+preview: I recently made a small contribution to Langchain.JS, and it got me thinking about how most open-source contributions actually come about.
+image: "./open_source.png"
+---
+
+Ever since I started as a developer, open-source contributions have often been romanticized as this grand, selfless act of giving back to the community. And while that’s part of it, the reality is much more grounded. Most contributions happen because someone was just trying to solve a problem—whether it was for their job, their project, or their own sanity.
+
+I recently made a small contribution to [Langchain.JS](https://github.com/langchain-ai/langchainjs/pull/7521), and it got me thinking about how most open-source contributions actually come about. Spoiler: it’s not because people wake up one day and think, “I should contribute to open source today.” It’s usually one of three things:
+
+---
+
+## 1. **Building Open-Source Tools as Part of Your Job**
+
+A lot of open-source contributions come from people who are paid to work on open-source projects. If you’re working at a company like Langchain, your job might involve writing code, fixing bugs, or adding features to their open-source libraries. It’s not some grand gesture—it’s just part of the gig.
+
+This is how I made my first open-source contributions. I was working on open-source tools as part of my job, and it just so happened that my work also benefited the broader community. It’s a win-win: the company gets better tools, and the community gets access to those improvements. No capes required.
+
+---
+
+## 2. **Using Open-Source Tools and Fixing Stuff That Bugs You**
+
+The second most common way people contribute to open-source is by using a tool and running into a bug or limitation. When you’re deep in the weeds of a project, you’re way more likely to notice things that could be improved—whether it’s a missing feature, a weird edge case, or just something that doesn’t work the way you’d expect.
+
+That’s exactly what happened with my recent contribution to Langchain.JS. I was using the `LLMGraphTransformer` class for a project and noticed that the `relationshipType` property could sometimes be undefined, which caused the whole graph extraction process to break. Instead of just working around it, I decided to fix it by adding a `fallbackRelationshipType` parameter. This lets you set a default value (like `"unknown"`) when `relationshipType` is missing, so the transformer can keep chugging along even if the data isn’t perfect.
+
+The PR ([#7521](https://github.com/langchain-ai/langchainjs/pull/7521)) got some great feedback from the maintainers, including a suggestion to set the default fallback value to `null` to avoid changing the default behavior unless you explicitly want to. I tweaked the code to reflect that, and it was a great reminder of how collaborative open-source can be.
+
+This kind of contribution is super common—you’re solving a problem that’s blocking *you*, and in the process, you’re helping everyone else who might run into the same issue. It’s like fixing a squeaky door in a shared apartment: you do it for yourself, but everyone benefits.
+
+---
+
+## 3. **Creating an Open-Source Tool That Blows Up**
+
+The third and rarest way people contribute to open-source is by creating a tool that suddenly becomes super popular. You build something to solve your own problem, share it with the world, and—boom—it takes off.
+
+This is the dream scenario, but let’s be honest: it’s also the least common. Most open-source projects don’t become household names (or even repo names), and even the ones that do take a ton of work to maintain. I haven’t created a wildly popular open-source tool (yet!), but I have a lot of respect for the people who have. It’s like writing a hit song—it’s equal parts skill, timing, and luck.
+
+---
+
+## Why “Contributing to Open Source” Isn’t the Goal
+
+Here’s the thing: none of these paths start with “I want to contribute to open source” as the main goal. Instead, contributions happen because you’re solving real problems—whether it’s for your job, your own projects, or just something that’s bugging you.
+
+This is a big deal for anyone who feels intimidated by the idea of contributing to open source. You don’t need to set out with the goal of “giving back to the community.” Just focus on building stuff, solving problems, and improving the tools you use every day. The contributions will happen naturally.
+
+---
+
+## Final Thoughts
+
+My journey with open-source contributions has been a mix of work and personal projects. Whether it’s fixing a bug in a library I use (like my recent PR to Langchain.JS) or adding a feature to a tool I’m building, every contribution has been driven by a practical need. It’s the same mindset I had when I wrote about [how AI helped me create something](https://minhha.vercel.app/blog/articles/ai_made_this)—it’s about solving problems and making things better, one step at a time.
+
+If you’re thinking about contributing to open source but don’t know where to start, here’s my advice: just start building and using open-source tools. The opportunities to contribute will show up, and when they do, you’ll be ready to make an impact. And who knows? Maybe your contribution will be the one that helps someone else scratch their itch.
+
+
