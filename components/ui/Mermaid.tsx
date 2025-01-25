@@ -27,19 +27,16 @@ export const Mermaid = ({ chart }: { chart: string }) => {
     mermaid.contentLoaded();
   }, [])
   return (
-    <div>
-      <div className="flex justify-end">
-
-        <Dialog>
-          <DialogTrigger>
-            <Expand className="h-4 w-4" />
-          </DialogTrigger>
-          <DialogContent className="max-w-6xl h-5/6 my-10 p-0 flex flex-col align-middle justify-center">
-            <Diagram chart={chart} />
-          </DialogContent>
-        </Dialog>
-      </div>
-      <Diagram chart={chart} />
-    </div>
+    <Dialog>
+      <DialogTrigger className="w-full">
+        <div className="flex justify-end">
+          <Expand className="h-4 w-4" />
+        </div>
+        <Diagram chart={chart} />
+      </DialogTrigger>
+      <DialogContent className="max-w-6xl h-5/6 my-10 p-0 flex flex-col align-middle justify-center">
+        <Diagram chart={chart} />
+      </DialogContent>
+    </Dialog>
   );
 }
