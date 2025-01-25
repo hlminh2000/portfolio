@@ -1,0 +1,197 @@
+---
+title: "From AWS CodeDeploy to GitHub Actions + Ansible: Streamlining a Deployment Workflow on On-Prem Servers"
+date: Fri Jan 25 2025 21:00:00 GMT-0500 (Eastern Standard Time)
+preview: Revisiting another infrastructure overhaul
+image: "./production_2.png"
+---
+import Link from 'next/link'
+import { Mermaid } from '@/components/ui/Mermaid'
+
+In my recent post, I shared about managing Docker logs on bare-metal machines, which was a small, fun effort. 
+But that project prompted me to revisit a much larger effort around the same system that I took on earlier: 
+overhauling our deployment workflow. This post aims to share the high-level reasonings, and the changes path
+we took.
+
+# The Starting Point: An Overfiew the Original Setup
+Our team operates Dockerized applications on bare-metal servers (a necessity due to specialized hardware). 
+At the time of my joining, a simplified view of every deployment looks like so:
+
+<Mermaid chart={`
+sequenceDiagram
+    participant GitHubActions as Github Actions
+    participant S3
+    participant CodeDeploy as AWS CodeDeploy
+    participant Hosts as Hosts with codedeploy agent
+
+    GitHubActions->>GitHubActions: Create Revision
+    GitHubActions->>S3: Push Revision to S3
+    GitHubActions->>CodeDeploy: Create deployment (referencing Revision in S3)
+    Hosts->>+CodeDeploy: Poll for new deployments
+    CodeDeploy-->>-Hosts: Notify Hosts of new deployment
+    Hosts->>+S3: Fetch Revision from S3
+    S3-->>-Hosts: Receives Revision
+    Hosts->>Hosts: Install and run application from Revision
+`}/>
+
+Here, `Revision` refers to our software bundle and a manifest file following the CodeDeploy format, including 
+deployment scripts and all application configs.
+
+While functional, this setup had presented challenges:
+
+- **Agent upkeep**: CodeDeploy agents required monitoring and updates. 
+
+    Sometimes the agent may go down
+    for an unknown reason, and we deployments would mysteriously hang until we manually restarted the agent.
+    
+- **IAM complexity**: AWS permissions for CodeDeploy Agents were separate from our SSO-based access controls.
+
+    We already manage our own access to all of our servers, as well as our AWS and other accounts through SSO,
+    so having another place where we had to manage permissions was a pain. Further, it was ambiguous who was 
+    responsible for policies around these IAM roles, since it didn't fall into our normal process.
+
+- **Static secrets**: Credentials persisted on hosts, posing security risks.
+
+    Certain credentials needed for deployments (e.g., container registry credentials) were stored on the hosts 
+    themselves. This was because there wasn't a way to safely send these credentials to the hosts from Github's
+    secret manager without bundling them in the Revisions - which would have been bigger security concern.
+
+- **Disjointed logs**: Tracking deployments meant jumping between GitHub Actions and AWS.
+
+    Since the deployment process was split between GitHub Actions and CodeDeploy, it was hard to track down 
+    issues that occurred during deployments. Everytime a deployment happens, I ended up manually observing
+    the CodeDeploy log in the machine. Piping this to a central log store was another option, but it would have
+    been another moving part to manage.
+
+- **Enviroment-bound artifacts**: Environment-specific changes required rebuilding artifacts.
+
+    We wanted to manage the configurations in code with Github, but the multiple hops needed to transfer something 
+    from Github Actions to the host meant that it was easier for us to bake the application configs right into the 
+    artifact, otherwise we would have had to invent yet another series of back-and-forth to get the configs to the 
+    host. This meant that we had to rebuild the artifact for every environment, which was a pain, and an anti-pattern
+    since what was tested was not guaranteed to be what gets deployed to production.
+
+    Another consequence of this was that we could not simply create a new environment and deploy an existing artifact,
+    so we were limited in how we could grow our infrastructure.
+
+- **No inventory management**:
+
+    We had to manually keep track of which hosts were in which environment, and what was running on them.
+    Documentation can only go so far, and answering the question "what's running on this machine" was harder than
+    it should have been.
+
+You might be wondering now why did we have to use CodeDeploy in the first place? 
+
+The answer: **Security**.
+
+Because Github Actions were running in Github's cloud, CodeDeploy allowed us to push deployments from Github
+Actions to our servers without having to open up their access to Github.
+
+# The Redesign: Combining Self-Hosted Runners and Ansible
+To address these challenges, we reworked the pipeline with two key changes:
+
+1. **Self-Hosted GitHub Actions Runners**
+
+    It might have been the case that the system was set up long before this was an option, frankly I don't know...
+    We had already started to host our own runners purely for cost-saving measure, but the implication of it was that
+    our workflows should now be able to safely access our servers which are all within the same network!
+
+    The natural thing for us to explore was how to get our workflows to access these machines... Which had a simple 
+    answer:
+
+1. **Ansible for Agentless Automation**
+
+    As a developer, code is the first tool I naturally reach for when solving a problem. Ansible, lets me do just that.
+    I've been using Ansible since 2018, but this was a new technology for the team at the time, so naturally, getting
+    some buy-in was my first priority. 
+
+    I started with targetting one machine which we use for development and testing, the goal was to get this one machine
+    redeployed everytime a commit was pushed to `master`. This is a low-risk way to test the waters, and showcase
+    the benefits of a new tool. A simple playbook over a weekend, and voila! We had a working deployment pipeline.
+
+Here’s the updated flow:
+
+<Mermaid chart={`
+sequenceDiagram
+    participant SelfHostedRunner as Self-Hosted Runner
+    participant S3
+    participant Hosts as Hosts
+
+    rect rgba(200, 200, 255, 0.2)
+        note right of SelfHostedRunner: Build Artifact Workflow
+        SelfHostedRunner->>SelfHostedRunner: Build artifact
+        SelfHostedRunner->>S3: Push artifact to S3
+    end
+
+    rect rgba(200, 255, 200, 0.2)
+        note right of SelfHostedRunner: Deployment Workflow
+        SelfHostedRunner->>Hosts: Execute Ansible playbook
+        Hosts->>+S3: Download artifact from S3
+        S3-->>-Hosts: Receives artifact
+        Hosts->>Hosts: Install and deploy new application
+        Hosts-->>SelfHostedRunner: Ansible playbook completes
+    end
+`}/>
+
+Now instead of a single workflow, we have two distinct workflows: one for building the artifact, and another 
+for deploying it. Not that this was not possible with CodeDeploy, but it would have taken a lot more effort.
+
+After a couple of weeks of testing, this approach has taken over how we deploy to non-production targets.
+That's when we knew it was time to take this to production.
+
+Here the goal was to use the exact same Ansible playbook to deploy to production as we did for other servers.
+We did however take the opportunity to create a new deployment account for production, which was only present
+on a new dedicated github runner which had access to the production servers. There certainly some minor
+variation between the Github workflows used for production vs non-production, mainly to support a few input
+parameters that were needed for safety.
+
+
+# Why This Approach Works Better
+Notify Hosts of new deployment
+
+  1. **One less agent in production**
+  
+      Replacing CodeDeploy with Ansible meant we no longer have to keep an agent running on our host machines.
+      We still have other agents there of course, sucha as an Elastic agent for log and security monitoring, but
+      if we can have one less process in production, that's always a win.
+
+  1. **Dynamic secrets**
+  
+      Since we can easily pass secrets from Github Actions to Ansible, we no longer have to store secrets 
+      any credential on the host machines. This is a big plus for security.
+
+  1. **Centralized inventory**
+  
+      Servers are all managed via Ansible’s inventory files, the question of "What machine is used for what" is now
+      answered simply by looking at the inventory file.
+
+  1. **Configurations decoupled**
+
+      Environment-specific settings were stored separately, enabling "build once, deploy anywhere.". 
+
+  1. **Central Access Control from SSO provider**
+
+      We no longer have a strange IAM role that we have to manage, all access is managed through our SSO provider.
+      If an SSH key is compromised, we can easily rotate it and revoke access just like how we would with
+      our own individual accounts.
+
+  1. **Flexible Configurations**
+
+      Since Ansible can push just the right config to each target host, we can now reused the artifact across 
+      environments by overriding configurations at deploy time. Adding new environment became much simpler, so we 
+      now have 4 of them :D (ok arguably that might be too much for us... but that's story for another time).
+
+  1. **Unified Visibility**
+
+      Gone are the days I'd have to jump through hoops to find out what happened during a deployment, everything 
+      is immediately visible on Github. Thankfully, Github also does a great job dedacting secrets from the logs,
+      so we aren't compromised if a secret is accidentally printed to the logs either.
+
+
+# Closing Thoughts
+
+It took some time to evolve the whole system, but today this is how we deploy virtually everything. Thankfully
+since those days, we have also gained a new valuable team member whose chop with Ansible is second to none, 
+so not only are my deployments but also the provisioning of our servers are also codified.
+
+Though I'm not fully an infrastructure-type, the process of improving a system is always a fun challenge.
+There will always be new approaches to try, and new tools to learn. I like wearing many technical hats 🤠
