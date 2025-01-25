@@ -131,11 +131,12 @@ sequenceDiagram
 
     rect rgba(200, 255, 200, 0.2)
         note right of SelfHostedRunner: Deployment Workflow
-        SelfHostedRunner->>Hosts: Execute Ansible playbook
+        SelfHostedRunner->>+Hosts: Execute Ansible playbook
         Hosts->>+S3: Download artifact from S3
         S3-->>-Hosts: Receives artifact
+        SelfHostedRunner->>Hosts: Pushes instance-specific configurations
         Hosts->>Hosts: Install and deploy new application
-        Hosts-->>SelfHostedRunner: Ansible playbook completes
+        Hosts-->>-SelfHostedRunner: Ansible playbook completes
     end
 `}/>
 
