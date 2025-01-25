@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Wheat } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 
 export function Navbar() {
@@ -35,7 +36,28 @@ export function Navbar() {
             ))}
           </div>
           <div className="md:hidden">
-            <button
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="text-gray-400 hover:text-gray-200 transition-colors"
+                >
+                  {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {sections.map((section) => (
+                  <Link
+                    key={section}
+                    href={section === "blog" ? "/blog" : `/#${section}`}
+                    className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
+                  >
+                    <DropdownMenuItem>{section}</DropdownMenuItem>
+                  </Link>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            {/* <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="text-gray-400 hover:text-gray-200 transition-colors"
             >
@@ -44,17 +66,16 @@ export function Navbar() {
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1">
                 {sections.map((section) => (
-                  <a
+                  <Link
                     key={section}
-                    href={`#${section}`}
+                    href={section === "blog" ? "/blog" : `/#${section}`}
                     className="block px-4 py-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
-                    onClick={() => setIsDropdownOpen(false)}
                   >
                     {section}
-                  </a>
+                  </Link>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

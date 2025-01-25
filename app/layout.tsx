@@ -56,7 +56,7 @@ export default function RootLayout({
         }
       </Script>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-gray-100`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-gray-100 dark`}
       >
         <ToastContainer theme="dark" />
         <Navbar />

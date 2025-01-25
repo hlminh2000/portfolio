@@ -30,10 +30,10 @@ sequenceDiagram
     participant CodeDeploy as AWS CodeDeploy
     participant Hosts as Hosts with codedeploy agent
 
+    Hosts->>+CodeDeploy: Poll for new deployments
     GitHubActions->>GitHubActions: Create Revision
     GitHubActions->>S3: Push Revision to S3
     GitHubActions->>CodeDeploy: Create deployment (referencing Revision in S3)
-    Hosts->>+CodeDeploy: Poll for new deployments
     CodeDeploy-->>-Hosts: Notify Hosts of new deployment
     Hosts->>+S3: Fetch Revision from S3
     S3-->>-Hosts: Receives Revision
@@ -153,7 +153,6 @@ parameters that were needed for safety.
 
 
 # Why This Approach Works Better
-Notify Hosts of new deployment
 
   1. **One less agent in production**
   
