@@ -5,7 +5,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ...components,
     wrapper: ({ children }: { children: React.ReactNode }) => {
       return (
-        <div className="prose prose-invert max-w-none">{children}</div>
+        <div className="prose prose-invert" style={{minWidth: "100%"}}>
+          {children}
+        </div>
       )
     },
   }
