@@ -14,6 +14,7 @@ export type BlogPost = {
   date: string
   slug: string
   image?: StaticImageData
+  tags?: string[]
 }
 
 export const getArticleBySlug = _.memoize(async (slug: string): Promise<BlogPost | null | undefined> => {

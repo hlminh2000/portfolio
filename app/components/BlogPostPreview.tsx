@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import Link from 'next/link';
 import { BlogPost } from '../blog/BlogPageContent';
+import { Tag } from '@/components/ui/tag';
 
 const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date: string } }) => {
   return (
@@ -15,7 +16,7 @@ const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date:
               src={blogPost.image}
               alt={blogPost.title}
               width={300}
-              height={200}
+              // height={200}
               className="rounded-lg object-cover w-full h-48"
             />
           </div>
@@ -24,7 +25,11 @@ const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date:
           <h2 className="text-2xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">
             {blogPost.title}
           </h2>
-          <p className="text-gray-400 mb-4">{blogPost.preview}</p>
+          <p className="text-gray-400 mb-2">{blogPost.preview}</p>
+
+          <div className="mb-2 flex flex-wrap gap-2">{(blogPost.tags || []).map(tag => (
+            <Tag key-={tag}>{tag}</Tag>
+          ))}</div>
           <div className="text-sm text-gray-500">{dayjs(blogPost.date).format("DD/MM/YYYY")}</div>
         </div>
       </article>

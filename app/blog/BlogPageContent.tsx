@@ -12,6 +12,7 @@ export type BlogPost = {
   date: dayjs.Dayjs | string
   slug: string
   image?: StaticImageData
+  tags?: string[]
 }
 
 export default function BlogPageContent({ blogPosts }: {blogPosts: BlogPost[]}) {

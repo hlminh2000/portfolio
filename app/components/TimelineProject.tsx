@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight, ChevronUp, ExternalLink } from 'lucide-react
 import { useState } from 'react';
 import _ from 'lodash';
 import { Timeline } from './timeline';
+import { Tag } from '@/components/ui/tag';
 
 export const TimelineProject = ({ project }: { project: Timeline[number]['projects'][number] }) => {
 
@@ -51,12 +52,7 @@ export const TimelineProject = ({ project }: { project: Timeline[number]['projec
           <div className="text-sm font-medium text-gray-300 mb-2">Technologies</div>
           <div className="flex flex-wrap gap-2">
             {project.technologies.map((tech, techIndex) => (
-              <span
-                key={techIndex}
-                className="px-3 py-1 bg-gray-800 rounded-full text-sm text-blue-400"
-              >
-                {tech}
-              </span>
+              <Tag key={techIndex}>{tech}</Tag>
             ))}
           </div>
         </div>

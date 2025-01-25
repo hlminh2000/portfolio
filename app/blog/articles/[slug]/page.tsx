@@ -6,6 +6,7 @@ import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { Metadata, ResolvingMetadata } from "next"
 import { Author } from "next/dist/lib/metadata/types/metadata-types"
+import { Tag } from "@/components/ui/tag"
 
 
 export async function generateStaticParams() {
@@ -51,6 +52,10 @@ const ArticleMetaDisplay = async ({ slug }: { slug: string }) => {
       <h1 className="text-4xl font-bold mb-8">{articleMeta.title}</h1>
       <div className="text-blue-600 mb-4">{dayjs(articleMeta.date).format("DD/MM/YYYY")}</div>
       <div className="mb-4">{articleMeta.preview}</div>
+      <div className="mb-4 flex flex-wrap gap-2">{(articleMeta.tags || []).map(tag => (
+        <Tag key-={tag}>{tag}</Tag>
+      ))}</div>
+
       {/* @ts-ignore */}
       <Image src={articleMeta.image}
         alt={articleMeta.title}
