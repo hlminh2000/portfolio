@@ -36,14 +36,9 @@ export function Navbar() {
             ))}
           </div>
           <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-gray-400 hover:text-gray-200 transition-colors"
-                >
-                  {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-                </button>
+            <DropdownMenu onOpenChange={open => setIsDropdownOpen(open)}>
+              <DropdownMenuTrigger className="text-gray-400 hover:text-gray-200 transition-colors">
+                {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {sections.map((section) => (

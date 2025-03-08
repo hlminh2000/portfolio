@@ -28,7 +28,7 @@ const BlogPostPrev = ({ blogPost }: { blogPost: Omit<BlogPost, "date"> & { date:
           <p className="text-gray-400 mb-2">{blogPost.preview}</p>
 
           <div className="mb-2 flex flex-wrap gap-2">{(blogPost.tags || []).map(tag => (
-            <Tag key-={tag}>{tag}</Tag>
+            <Tag key={tag}>{tag}</Tag>
           ))}</div>
           <div className="text-sm text-gray-500">{dayjs(blogPost.date).format("DD/MM/YYYY")}</div>
         </div>
