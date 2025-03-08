@@ -47,7 +47,7 @@ const TimelineDisplay = async () => {
               <div className="text-gray-400 mb-2">{item.company}</div>
               <Clamped Content={item.description} />
 
-              {item.projects && item.projects.map(project => <TimelineProject project={project} />)}
+              {item.projects && item.projects.map(project => <TimelineProject project={project} key={project.id} />)}
             </RevealOnScroll>
           </div>
         )))

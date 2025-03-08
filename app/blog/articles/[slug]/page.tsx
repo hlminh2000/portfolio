@@ -53,7 +53,7 @@ const ArticleMetaDisplay = async ({ slug }: { slug: string }) => {
       <div className="text-blue-600 mb-4">{dayjs(articleMeta.date).format("DD/MM/YYYY")}</div>
       <div className="mb-4">{articleMeta.preview}</div>
       <div className="mb-4 flex flex-wrap gap-2">{(articleMeta.tags || []).map(tag => (
-        <Tag key-={tag}>{tag}</Tag>
+        <Tag key={tag}>{tag}</Tag>
       ))}</div>
 
       {/* @ts-ignore */}

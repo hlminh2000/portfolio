@@ -51,8 +51,8 @@ export const TimelineProject = ({ project }: { project: Timeline[number]['projec
         <div className="mb-4">
           <div className="text-sm font-medium text-gray-300 mb-2">Technologies</div>
           <div className="flex flex-wrap gap-2">
-            {project.technologies.map((tech, techIndex) => (
-              <Tag key={techIndex}>{tech}</Tag>
+            {project.technologies.map((tech) => (
+              <Tag key={tech}>{tech}</Tag>
             ))}
           </div>
         </div>
